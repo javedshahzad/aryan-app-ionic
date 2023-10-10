@@ -1,0 +1,38 @@
+<ion-content [fullscreen]="true">
+  <div class="content-area primary-bg welcome-page" style="height: 100%;">
+
+    <h1 class="white-text center welcome-logo index-welcome"><img src="assets/images/logo/aryan-logo.png"></h1>
+
+    <div class="fullfixed slider-fixed index-carousel">
+      <swiper-container>
+        <swiper-slide class="carousel-item">
+          <div class="bg" style="background-image: url('assets/images/attendance.jpg')"></div>
+          <div class="item-content slider-content center-align white-text">
+            <div class="spacer-xlarge"></div>
+            <h3>We Give The Best Service From Our Side With Complete Transparency.</h3>
+            <!--<h5 class="light white-text">With pre built ready to use apps</h5>-->
+          </div>
+        </swiper-slide>
+        <swiper-slide class="carousel-item">
+          <div class="bg" style="background-image: url('assets/images/event.jpg')"></div>
+          <div class="item-content slider-content center-align white-text">
+            <div class="spacer-xlarge"></div>
+            <h3>For a successful business along with good investment & dedicated work a suitable area also matters a lot.</h3>
+            <!--<h5 class="light white-text">Designed as one our of best mobile app.</h5>-->
+          </div>
+        </swiper-slide>
+        <swiper-slide class="carousel-item">
+          <div class="bg" style="background-image: url('assets/images/customer.jpg')"></div>
+          <div class="item-content slider-content center-align white-text">
+            <div class="spacer-xlarge"></div>
+            <h3>We have achieved a significant milestone with the invaluable support of our clients and associates.</h3>
+            <!--<h5 class="light white-text">All in one premium quality app.</h5>-->
+          </div>
+        </swiper-slide>
+      </swiper-container>
+    </div>
+    <div class="center  start-btn index-start center-align">
+      <a (click)="goToLogin()" class='waves-light btn-large bg-white'>Get Started</a>
+    </div>
+  </div>
+</ion-content>

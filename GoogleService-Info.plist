@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>1091753766850-semn4qbn6et06d1j39ge2vatl9u56fos.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1091753766850-semn4qbn6et06d1j39ge2vatl9u56fos</string>
+	<key>API_KEY</key>
+	<string>AIzaSyA7r44-yHRqQXc1gCSpwzZWWf0hcy9epTI</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1091753766850</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.aryanReality.app</string>
+	<key>PROJECT_ID</key>
+	<string>aryanrealty-crm</string>
+	<key>STORAGE_BUCKET</key>
+	<string>aryanrealty-crm.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1091753766850:ios:7ac7af85e47b26a8d6b05b</string>
+</dict>
+</plist>

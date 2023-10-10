@@ -1,0 +1,71 @@
+<ion-content [fullscreen]="true">
+
+  <section class="content-area home-page">
+    <div class="container">
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-segment mode="ios" [scrollable]="true" [value]="SelectedStatus" [(ngModel)]="SelectedStatus" (ionChange)="changeSegment($event)">
+              <ion-segment-button value="0">
+                <h5 class="heading">All</h5>
+              </ion-segment-button>
+              <ion-segment-button [value]="item.status_id" *ngFor="let item of customerStatus">
+                <h5 class="heading">{{item.status_title}}</h5>
+              </ion-segment-button>
+            </ion-segment>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <!-- <div class="row">
+        <div class="checkout-btn right">
+          <a class="waves-effect waves-light btn primary-bg lighten-2">Clear All</a>
+        </div>
+      </div> -->
+      <div class="row notification-list">
+        <div class="card-panel z-depth-1 profile-col-box pd-15" *ngFor="let leadDetails of leadsListing">
+          <div class="row bot-0">
+              <h3>{{ leadDetails.req_name }} {{ leadDetails.req_last_name }}</h3>
+              <span class="">{{leadDetails?.rep_min_budget || "30 Lac"}} to {{leadDetails?.rep_max_budget || "40 Lac"}} - {{leadDetails?.rep_product_location || "Haryana"}}</span>
+              <p *ngFor="let event of leadDetails.event_list">
+                {{ event.event_type | titlecase }}
+                <span><i class="mdi mdi-circle" style="color: var(--primary-color);font-size: 8px;margin-right: 3px;vertical-align: middle;"></i>{{event.event_date}}</span>
+              </p>
+              <ion-button (click)="gotoLeadDetailsEdit(leadDetails)" expand="block">View Details</ion-button>
+              <div class="activity-card d-flex">
+                <div class="follow-up" (click)="gotoScheduleEvent(leadDetails)">
+                  <label><i class="icon-calender"></i></label>
+                </div>
+                <a class="follow-up" href="tel:+91{{leadDetails.req_phone}}">
+                  <label><i class="icon-phone"></i></label>
+                </a>
+                <a class="follow-up" href="https://wa.me/+91{{leadDetails.req_phone}}?text=Hello">
+                  <label><i class="mdi mdi-whatsapp"></i></label>
+                </a>
+              </div>
+              
+          </div>
+        </div>
+
+        <!-- <div class="card-panel z-depth-1 profile-col-box pd-15">
+          <div class="row valign-wrapper bot-0">
+            <div class="col">
+              <h3>Arun Awasthi</h3>
+              <span class="">25 Lac to 50 Lac - Gurugram, Harayana</span>
+              <p style="color: red;">No Event Scheduled</p>
+            </div>
+          </div>
+        </div> -->
+
+        <div class="card-panel z-depth-1 profile-col-box pd-15" *ngIf="leadsDataLoading || (!leadsDataLoading && !leadsListing?.length)">
+          <div class="row valign-wrapper bot-0 center">
+            <div class="col ion-text-center">
+              <ion-spinner *ngIf="leadsDataLoading" class="ion-text-center"></ion-spinner>
+              <h3 *ngIf="!leadsDataLoading && !leadsListing?.length">No Result Found!</h3>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</ion-content>

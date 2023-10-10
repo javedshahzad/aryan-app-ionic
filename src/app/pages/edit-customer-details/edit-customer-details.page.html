@@ -1,0 +1,128 @@
+<ion-content [fullscreen]="true">
+  <section class="edit-customer-page">
+    <div class="container">
+      <div class="row notification-list">
+        <div class="card-panel z-depth-1 profile-col-box pd-15">
+          <div class="row bot-0">
+            <h4>{{selectedCustomer?.req_name || "Anuj"}}</h4>
+            <span class="">{{selectedCustomer?.rep_min_budget || "30 Lac"}} to {{selectedCustomer?.rep_max_budget || "40 Lac"}} - {{selectedCustomer?.rep_product_location || "Haryana"}}</span>
+            <h5>Email: {{selectedCustomer?.req_email || "abc@gmail.com"}}</h5>
+            <h5>Type: {{status}}</h5>
+            <h5>Phone : {{selectedCustomer?.req_phone}}</h5>
+            <h5>Property Status: {{selectedCustomer?.rep_property_status || "Under construction"}}</h5>
+            <h5>Unit Type : {{selectedCustomer?.rep_unit_type || "Apartment"}}</h5>
+            <h5>Location: {{selectedCustomer?.rep_product_location || "Delhi"}}</h5>
+            <div class="activity-card d-flex">
+              <a class="follow-up" href="tel:+91{{selectedCustomer?.req_phone}}">
+                <label>
+                  <i class="icon-phone"></i>
+                </label>
+              </a>
+              <a class="follow-up" href="https://wa.me/+91{{selectedCustomer?.req_phone}}?text=Hello">
+                <label>
+                  <i class="mdi mdi-whatsapp"></i>
+                </label>
+              </a>
+            </div>
+            <ion-button expand="block" (click)="gotoEditDetails(selectedCustomer)">Edit Details</ion-button>
+          </div>
+        </div>
+      </div>
+      <div class="row notification-list">
+        <div class="card-panel z-depth-1 profile-col-box pd-15">
+          <div class="row bot-0">
+            <h5>Scheduled Meetings</h5>
+            <div class="meetings" *ngFor="let event of selectedCustomer?.event_list">
+              <p class="ion-text-capitalize"> {{ event.event_type || "meeting"}}</p>
+              <p>
+                <span>
+                  <i class="mdi mdi-circle" style="color: var(--primary-color);font-size: 8px;margin-right: 3px;vertical-align: middle;"></i>{{event.event_date}}
+                </span>
+              </p>
+            </div>
+            <ion-button (click)="gotoScheduleEvent(selectedCustomer)" expand="block">
+              <i class="icon-calender"></i> &nbsp; Schedule an event
+            </ion-button>
+          </div>
+        </div>
+      </div>
+      <div class="row notification-list">
+        <div class="card-panel z-depth-1 profile-col-box pd-15">
+          <div class="row bot-0">
+            <h5>Status : {{status}}</h5>
+            <div class="meetings">
+              <h5>Change Status</h5>
+              <ion-select class="itemclass" label="Status" id="status" (ionChange)="changeStatus()" [(ngModel)]="statusChange">
+                <ion-select-option *ngFor="let status of customerStatus" [value]="status.status_id">{{ status?.status_title  || "ddd"}}</ion-select-option>
+              </ion-select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row notification-list">
+        <div class="card-panel z-depth-1 profile-col-box pd-15">
+          <div class="row bot-0">
+            <div class="meetings">
+              <h5>Assigned Project</h5>
+              <ion-select class="itemclass" label="Assign Project" id="status" (ionChange)="changeStatus()" [(ngModel)]="assignedProject">
+                <ion-select-option *ngFor="let project of projectList" [value]="project.project_id">{{ project?.project_title  || "ddd"}}</ion-select-option>
+              </ion-select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row notification-list">
+        <div class="card-panel z-depth-1 profile-col-box pd-15">
+          <div class="row bot-0">
+            <div class="">
+              <h5>Add Note</h5>
+              <textarea id="textarea-normal" class="materialize-textarea text-style" [(ngModel)]="note"></textarea>
+            </div>
+            <div class="ion-text-center">
+              <ion-button shape="round" color="warning" (click)="setOpen(true)" size="small">View All Notes</ion-button>
+              <ion-button  [disabled]="addnotes" shape="round" (click)="Addnewnote()" size="small">
+                <ion-spinner *ngIf="addnotes" style="width: 20px;vertical-align: middle;margin-right: 5px;"></ion-spinner>
+                Add Note</ion-button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
+      <ion-button expand="block" [disabled]="loading" (click)="updatelead()">
+        <ion-spinner *ngIf="loading" style="width: 20px;vertical-align: middle;margin-right: 5px;"></ion-spinner> Save Details
+      </ion-button>
+      <br>
+      <br>
+    </div>
+  </section>
+  <ion-modal [isOpen]="isModalOpen" mode="ios">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>All Notes</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="setOpen(false)">Close</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+        <ion-list>
+          <ion-grid>
+            <ion-row>
+              <ion-col *ngFor="let singlenote of AllNotes" class="border-bottom" size="12">
+                <ion-note>
+                  <p>Note: {{singlenote.note_msg}}</p>
+                </ion-note>
+                <p>
+                  <span>
+                    <i class="mdi mdi-circle" style="color: var(--primary-color);font-size: 8px;margin-right: 3px;vertical-align: middle;"></i> {{ singlenote.note_created  | date:'short' }}
+                  </span>
+                </p>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-list>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>

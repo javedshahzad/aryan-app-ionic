@@ -1,0 +1,139 @@
+
+<ion-content [fullscreen]="true">
+  <section class="content-area home-page">
+
+    <div class="container">
+      <div class="row">
+        <div class="checkout-btn right">
+          <button ion-button class="waves-effect waves-light btn primary-bg lighten-2" (click)="checkInOut()" [disabled]="attendance_loading"><i class="icon-tick left" *ngIf="!attendance_loading"></i>{{ attendance_loading ? "Updating" : (attendance_action == 'check-in' ? "Check In" : "Check Out") }}</button>
+        </div>
+      </div>
+      <div class="row" *ngIf="displayProfileCompletion">
+        <div class="card-panel z-depth-1 profile-col-box pd-15">
+          <div class="row valign-wrapper bot-0">
+            <div class="col s4 mr-0">
+              <a class="img-wrap circle">
+                <img src="assets/images/icons/svg/lets-profile.svg" alt="" class="circle responsive-img">
+              </a>
+              <!-- notice the "circle" class -->
+            </div>
+            <div class="col s8">
+              <h3>Let's get you started</h3>
+              <span class="">Few details are missing from your profile to access all the features of the app.
+              </span>
+              <div class="card-action">
+                <a routerLink="/profile">Complete Profile <i class="mdi mdi-arrow-right"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="card-panel z-depth-1 seal-trust pd-10">
+          <div class="row valign-wrapper bot-0">
+            <div class="col s12 bot-0 pr-0 pl-0">
+              <p style="font-size: 14px; margin: 5px auto;">Aryan Realty Infratech Pvt. Ltd.</p>
+              <h4>Seal of Trust</h4>
+              <h3>The stamp of assurance</h3>
+            </div>
+            <div class="col s4 pr-0 bot-0">
+              <a class="img-wrap">
+                <img src="assets/images/icons/svg/trust-seal.png" alt="" class="responsive-img">
+              </a>
+              <!-- notice the "circle" class -->
+            </div>
+          </div>
+          <div class="row">
+            <div class="card-action">
+              <span>Customer Satisfaction</span><span>|</span>
+              <span>Approachable</span><span>|</span>
+              <span>Dedication</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="section-heading">
+          <div class="heading-flex">
+            <h2>Explore Project</h2>
+            <i class="mdi mdi-arrow-right" routerLink="/project-list"></i>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+
+        <div class="carousel carousel-fullscreen carousel-slider home-page-carousel ">
+          <div class="container">
+            <span class="carousel-item">
+              <div class="bg" style="background-image: url({{bannerImage}})"></div>
+              <div class="item-content center-align white-text content-top">
+                <div class="item-icon">
+                  <div class="project-logo">
+                    <img src="assets/images/icons/svg/trust.svg">
+                  </div>
+                </div>
+              </div>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="explore-project-list">
+      <div class="container">
+        <div class="row">
+          <div class="card-panel z-depth-1 seal-trust pd-15">
+            <div class="row valign-wrapper bot-0">
+              <div class="col s9">
+                <h3>Lead Manager</h3>
+                <p>Encrypted Leads</p>
+              </div>
+              <div class="col s3">
+                <div class="img-wrap">
+                  <img src="assets/images/icons/svg/event.svg" alt="" class="responsive-img">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <h5 class="center">add your lead<br>unlocked the power of acp lead manager</h5>
+              <div class="center">
+                <a class="btn-large waves-effect theme-bg-btn primary-bg" routerLink="/add-customer"><i
+                    class="mdi mdi-plus"></i> Add Lead</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="card-panel z-depth-1 seal-trust pd-15">
+            <div class="row valign-wrapper bot-0">
+              <div class="col s9">
+                <h3>Schedule Event</h3>
+              </div>
+              <div class="col s3">
+                <div class="img-wrap">
+                  <img src="assets/images/icons/svg/calender.svg" alt="" class="responsive-img">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <h5 class="center">schedule your event</h5>
+              <div class="center">
+                <a class="btn-large waves-effect theme-bg-btn primary-bg" routerLink="/schedule-event"><i
+                    class="mdi mdi-plus"></i> Add Event</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <br>
+    <div class="cccc"></div>
+  </section>
+  <br>
+  <br>
+
+</ion-content>

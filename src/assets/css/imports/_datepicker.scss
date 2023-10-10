@@ -1,0 +1,102 @@
+/*----------------------------------------
+  Date picker
+------------------------------------------*/
+/*----------------------------------------
+  Site - Dark Mode - Datepicker
+----------------------------------------*/
+.datepicker-table {
+	td.is-selected {
+		background-color: var(--primary-color);
+		color: var(--white-color) !important;
+	}
+	td.is-today {
+		color: var(--primary-color);
+	}
+}
+.datepicker-date-display {
+	background-color: var(--primary-color);
+	color: var(--white-color) !important;
+}
+.datepicker-cancel {
+	color: var(--primary-color);
+}
+.datepicker-clear {
+	color: var(--primary-color);
+}
+.datepicker-today {
+	color: var(--primary-color);
+}
+.datepicker-done {
+	color: var(--primary-color);
+}
+.datepicker-table-wrapper {
+	table {
+		-webkit-box-shadow: none;
+		box-shadow: none;
+		background-color: var(--bg-transparent);
+	}
+}
+.datepicker-calendar {
+	button {
+		&:focus {
+			background-color: var(--bg-transparent);
+			color: var(--white-color);
+		}
+	}
+}
+.datepicker-day-button {
+	&:focus {
+		background-color: var(--primary-color);
+	}
+}
+.datepicker-controls {
+	.select-month {
+		input {
+			width: 85px;
+			text-align: right;
+			padding: 0px !important;
+		}
+	}
+	.select-year {
+		input {
+			padding: 0px !important;
+		}
+	}
+	button {
+		opacity: 0.6;
+	}
+}
+.timepicker-span-hours {
+	font-size: 24px;
+}
+.timepicker-span-minutes {
+	font-size: 24px;
+}
+[data-site_mode="dark"] {
+	.datepicker-container {
+		.month-prev {
+			svg {
+				fill: #eeeeee;
+			}
+		}
+		.month-next {
+			svg {
+				fill: #eeeeee;
+			}
+		}
+	}
+	.datepicker-table {
+		td.is-outside-current-month {
+			.datepicker-day-button {
+				color: var(--light-grey-color);
+				opacity: 0.7;
+			}
+		}
+		td.is-disabled {
+			.datepicker-day-button {
+				color: var(--light-grey-color);
+				opacity: 0.7;
+			}
+		}
+	}
+}

@@ -1,0 +1,13 @@
+:host {
+    .project-details {
+        .bg {
+            height: 100%;
+            width: 100%;display: inline-block;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            position: absolute;
+            background-color: var(--primary-color);
+        }
+    }
+}

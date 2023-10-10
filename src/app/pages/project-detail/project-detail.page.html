@@ -1,0 +1,69 @@
+<ion-content [fullscreen]="true">
+  <section class="content-area project-list">
+    <div class="project-details" *ngIf="!projectDetailsLoading && !projectDetails">
+      <div class="card-content">
+        <div class="row valign-wrapper bot-0 center">
+          <div class="col">
+            <ion-spinner *ngIf="projectDetailsLoading"></ion-spinner>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="project-details" *ngIf="projectDetails && !projectDetailsLoading">
+        <swiper-container [pagination]="true">
+          <swiper-slide *ngIf="projectDetails?.project_main_image">
+            <div class="bg" style="background-image: url({{projectDetails.project_main_image}}); "></div>
+          </swiper-slide>
+          <swiper-slide *ngIf="projectDetails?.Highlights_image">
+            <div class="bg" style="background-image: url({{projectDetails.Highlights_image}});"></div>
+          </swiper-slide>
+          <swiper-slide *ngIf="projectDetails?.amenities_image">
+            <div class="bg" style="background-image: url({{projectDetails.amenities_image}});"></div>
+          </swiper-slide>
+          <swiper-slide *ngFor="let floor_plan of projectDetails.floor_plan">
+            <div class="bg" style="background-image: url({{projectDetails.image_base_path+floor_plan.image}});"></div>
+          </swiper-slide>
+          <swiper-slide *ngFor="let galley_image of projectDetails.galley_image">
+            <div class="bg" style="background-image: url({{projectDetails.image_base_path+galley_image.image}});"></div>
+          </swiper-slide>
+          
+        </swiper-container>
+      <div class="card-content">
+        <div class="project-title">
+          <h2>{{ projectDetails.project_title }}</h2>
+          <h3><i class="icon-location"></i>{{ projectDetails.project_location }}</h3>
+          <h2><i class="icon-rupee"></i><h1 style="display: inline-block;">{{ projectDetails.project_price }} {{ projectDetails.price_type }}</h1></h2>
+          <p [innerHTML]="projectDetails.project_location_text"></p>
+        </div>
+      </div>
+      <div class="project-animites">
+        <ul>
+          <li><i class="icon-Apartment"></i>{{ projectDetails.category }}</li>
+          <li><i class="icon-Possession"></i>Possession: {{ projectDetails.expected_possession }}</li>
+          <li><i class="icon-home-outline"></i>{{ projectDetails.project_type }}</li>
+          <li><i class="icon-home-outline"></i>{{ projectDetails.project_size }} {{ projectDetails.size_type }}</li>
+        </ul>
+      </div>
+      <div class="project-animites">
+        <h2>Highlights</h2>
+        <p [innerHTML]="projectDetails.Highlights_text"></p>
+      </div>
+      <div class="project-animites">
+        <h2>About Project</h2>
+        <p>{{ projectDetails.project_description }}</p>
+      </div>
+      <br>
+      <br>
+      <div class="ion-text-center" *ngIf="projectDetails?.project_brochure">
+          <div class="checkout-btn" style="margin: 10px 0;">
+            <button ion-button class="waves-effect waves-light btn primary-bg lighten-2" (click)="shareLink(projectDetails?.project_brochure)"><i class="mdi mdi-file-pdf left"></i>Download Brochure</button>
+          </div>
+      </div>
+      <div class="ion-text-center" *ngIf="projectDetails?.project_url">
+        <div class="checkout-btn" style="margin-bottom: 20px">
+          <button ion-button class="waves-effect waves-light btn primary-bg lighten-2" (click)="shareLink(projectDetails?.project_url)"><i class="mdi mdi-arrow-right left"></i>Share Now</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</ion-content>

@@ -1,0 +1,26 @@
+
+.notification-list {
+	.profile-col-box {
+		background: var(--white-color);
+		.card-action {
+			span {
+				margin-top: 10px;
+			}
+		}
+		a.img-wrap.circle {
+			width: 70px;
+			height: 70px;
+			padding: 0;
+			img {
+				width: 100%;
+			}
+		}
+		.row.valign-wrapper {
+			align-items: flex-start;
+			justify-content: flex-start;
+		}
+		h3 {
+			font-size: 14px;
+		}
+	}
+}

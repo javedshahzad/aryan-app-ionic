@@ -1,0 +1,37 @@
+<ion-content [fullscreen]="true">
+  <div class="content-area login-page primary-bg">
+    <h1 class="white-text center welcome-logo index-welcome"><img src="assets/images/logo/aryan-logo.png"></h1>
+    <div class="access-login"></div>
+    <div class="container login-area">
+      <div class="section">
+        <h3 class="bot-20 center white-text">Welcome Back</h3>
+        <form [formGroup]="loginForm">
+          <div class="row">
+            <div class="input-field col s12">
+              <i class="icon-user prefix"></i>
+              <input id="email311" type="text" class="validate col s12 waves-light" formControlName="user_login">
+              <label for="email311">Username</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <i class="icon-locked prefix"></i>
+              <input id="pass311" type="password" class="validate col s12 waves-light" formControlName="user_password">
+              <label for="pass311">Password</label>
+            </div>
+          </div>
+          <div class="row center">
+            <div class="input-field">
+              <button ion-button class="waves-effect waves-light btn-large bg-white" style="width: 100%;" [disabled]="loading" (click)="login()"><ion-spinner *ngIf="loading" style="width: 20px;vertical-align: middle;margin-right: 5px;"></ion-spinner>Login</button>
+            </div>
+  
+            <!--<div class="spacer"></div>
+            <div class="links">
+              <a routerLink="/forgot-password">Forgot Password</a>
+            </div>-->
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</ion-content>

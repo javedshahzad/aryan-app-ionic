@@ -1,0 +1,173 @@
+<ion-content [fullscreen]="true">
+  <section class="content-area customer-page">
+    <div class="container">
+      <div class="row">
+        <div class="custome-event"  *ngIf="!customerDashboardDataLoading">
+          <div class="event-heading">
+            <h4>Today's Schedule</h4>
+            <p>0 Events Schduled For Today</p>
+          </div>
+          <div class="add-event-card">
+            <div class="icon-block block-small center z-depth-1">
+              <div class="calender-icon primary-text"><img src="assets/images/icons/svg/calender.svg"></div>
+              <div class="title ">No Event Scheduled</div>
+              <div class="center">
+                <a class="btn-large waves-effect theme-bg-btn" routerLink="/schedule-event"><i class="icon-plus"></i> Add
+                  Event</a>
+              </div>
+            </div>
+          </div>
+          
+          <div class="calender-btn" routerLink="/events-with-calendar">
+            <h5><i class="icon-calender" style="font-size: 20px;"></i> &nbsp;View Calender</h5>
+          </div>
+
+          <div class="customer-summary">
+            <div *ngIf="!updatingCustomerDashboardData">
+              <div class="event-heading">
+                <h4>Customer Summary</h4>
+              </div>
+              <div class="row d-flex">
+                <div class="col" (click)="goToSummaryDetails('Total')">
+                  <div class="icon-block block-small z-depth-1 d-flex">
+                    <div class="icon  primary-text"><i class="icon-total-customer"></i></div>
+                    <div class="summary-text">
+                      <div class="title ">{{ customerDashboardData?.customer_summary?.total || 0 }}</div>
+                      <div class="tagline">Total</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col" (click)="goToSummaryDetails('New')">
+                  <div class="icon-block block-small z-depth-1 d-flex">
+                    <div class="icon  primary-text"><i class="icon-new-customer"></i></div>
+                    <div class="summary-text">
+                      <div class="title ">{{ customerDashboardData?.customer_summary?.new || 0 }}</div>
+                      <div class="tagline">New</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col" (click)="goToSummaryDetails('Broker')">
+                  <div class="icon-block block-small z-depth-1 d-flex">
+                    <div class="icon  primary-text"><img src="../../../assets/icons/BROKER.svg" alt=""></div>
+                    <div class="summary-text">
+                      <div class="title ">{{ customerDashboardData?.customer_summary?.broker || 0 }}</div>
+                      <div class="tagline">Broker</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col" (click)="goToSummaryDetails('Wrong No')">
+                  <div class="icon-block block-small z-depth-1 d-flex">
+                    <div class="icon  primary-text"><img src="../../../assets/icons/WRONG NO.svg" alt=""></div>
+                    <div class="summary-text">
+                      <div class="title ">{{ customerDashboardData?.customer_summary?.wrong_number || 0 }}</div>
+                      <div class="tagline">Wrong Number</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col" (click)="goToSummaryDetails('Switch  Off')">
+                  <div class="icon-block block-small z-depth-1 d-flex">
+                    <div class="icon  primary-text"><img src="../../../assets/icons/SWITCH OFF.svg" alt=""></div>
+                    <div class="summary-text">
+                      <div class="title ">{{ customerDashboardData?.customer_summary?.switch_off || 0 }}</div>
+                      <div class="tagline">Switch Off</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col" (click)="goToSummaryDetails('Not Interested')">
+                  <div class="icon-block block-small z-depth-1 d-flex">
+                    <div class="icon  primary-text"><img src="../../../assets/icons/NOT INTERESTED.svg" alt=""></div>
+                    <div class="summary-text">
+                      <div class="title ">{{ customerDashboardData?.customer_summary?.not_interested || 0 }}</div>
+                      <div class="tagline">Not Interested</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col" (click)="goToSummaryDetails('Callback')">
+                  <div class="icon-block block-small z-depth-1 d-flex">
+                    <div class="icon  primary-text"><img src="../../../assets/icons/Call Back.svg" alt=""></div>
+                    <div class="summary-text">
+                      <div class="title ">{{ customerDashboardData?.customer_summary?.call_back || 0 }}</div>
+                      <div class="tagline">Callback</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col" (click)="goToSummaryDetails('Sales Closed')">
+                  <div class="icon-block block-small z-depth-1 d-flex">
+                    <div class="icon  primary-text"><img src="../../../assets/icons/SALES CLOSED.svg" alt=""></div>
+                    <div class="summary-text">
+                      <div class="title ">{{ customerDashboardData?.customer_summary?.sales_closed || 0 }}</div>
+                      <div class="tagline">Sales Closed</div>
+                    </div>
+                  </div>
+                </div>
+                <!-- <div class="col" (click)="goToSummaryDetails('Busy')">
+                  <div class="icon-block block-small z-depth-1 d-flex">
+                    <div class="icon  primary-text"><img src="../../../assets/icons/BUSY.svg" alt=""></div>
+                    <div class="summary-text">
+                      <div class="title ">{{ customerDashboardData?.customer_summary?.busy || 0 }}</div>
+                      <div class="tagline">Busy</div>
+                    </div>
+                  </div>
+                </div> -->
+              </div>
+              <div class="customer-activity">
+                <div class="event-heading">
+                  <h4>Customer Activity</h4>
+                </div>
+                <div class="row">
+                  <div class="card">
+                    <div class="icon-block block-small z-depth-1 d-flex">
+                      <div class="icon  primary-text"><i class="icon-calender-outline"></i></div>
+                      <div class="summary-text">
+                        <div class="title ">Scheduled Events <span>(Till Date)</span></div>
+                      </div>
+                      <div class="activity-card d-flex">
+                        <div class="follow-up">
+                          <label><img src="../../../assets/icons/FOLLOW UP.svg" class="custom-img" alt="">Follow Up</label>
+                          <p class="count">{{ customerDashboardData?.customer_summary?.follow_up || 0 }}</p>
+                        </div>
+                        <div class="follow-up">
+                          <label><img src="../../../assets/icons/MEETING.svg" alt="" class="custom-img">Meeting</label>
+                          <p class="count">{{ customerDashboardData?.customer_summary?.meeting || 0 }}</p>
+                        </div>
+                        <div class="follow-up">
+                          <label><img src="../../../assets/icons/SITE VISIT.svg" alt="" class="custom-img">Site Visit</label>
+                          <p class="count">{{ customerDashboardData?.customer_summary?.site_visit || 0 }}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="card">
+                    <div class="add-event-card">
+                      <div class="icon-block block-small center z-depth-1">
+                        <div class="calender-icon primary-text"><img src="assets/images/icons/svg/Customers.svg"></div>
+                        <div class="right">
+                          <a class="btn-large waves-effect theme-bg-btn" routerLink="/add-customer"><i
+                              class="icon-plus"></i> Add Customer</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row valign-wrapper bot-0 center" *ngIf="updatingCustomerDashboardData">
+              <div class="col">
+                <ion-spinner></ion-spinner>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-panel z-depth-1 profile-col-box pd-15" *ngIf="customerDashboardDataLoading">
+          <div class="row valign-wrapper bot-0 center">
+            <div class="col ion-text-center">
+              <ion-spinner *ngIf="customerDashboardDataLoading"></ion-spinner>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</ion-content>

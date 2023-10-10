@@ -1,0 +1,32 @@
+
+
+.field-progress-bar {
+	background: var(--white-color);
+	padding: 20px;
+	border-radius: 20px;
+	margin-bottom: 20px;
+}
+.row.field-progress-bar {
+	.progress {
+		height: 10px !important;
+	}
+}
+.profile-other-details {
+	background: var(--white-color);
+	padding: 20px;
+	border-radius: 20px;
+}
+.checkout-btn.account-label {
+	margin-top: 100px;
+	a {
+		font-size: 12px;
+		height: auto;
+		padding: 5px 10px;
+		display: flex;
+		i {
+			font-size: 14px;
+			color: var(--white-color);
+			margin-right: 5px;
+		}
+	}
+}

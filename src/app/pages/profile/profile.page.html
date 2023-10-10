@@ -1,0 +1,72 @@
+<ion-content [fullscreen]="true">
+  <section class="content-area addcustomer-page">
+    <div class="container">
+      <div class="row">
+        <div class="profile-view">
+          <div class="user-view">
+            <div class="col">
+              <div class="img-wrap circle">
+                <img [src]="userData.profile_img" alt="" class="circle responsive-img">
+              </div>
+            </div>
+            <div class="col">
+              <h3>{{ userData.admin_name }}</h3>
+              <span class="code">Code: {{ userData.user_code }}</span>
+              <span>Active since</span>
+              <span>{{ userData.active_since }}</span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="customer-form">
+        <form [formGroup]="profileForm">
+          <div class="input-field">
+            <div class="row field-progress-bar">
+              <h5>Profile Completion</h5>
+              <div class="progress progress-large green lighten-4">
+                <div class="determinate green lighten-2" [style.width.%]="completion_percent"></div>
+              </div>
+            </div>
+          </div>
+          <div class="profile-other-details">
+            <div class="input-field">
+              <h5>First Name</h5>
+              <input formControlName="first_name" id="first_name1" type="text" class="validate">
+            </div>
+            <div class="input-field">
+              <h5>Last Name</h5>
+              <input formControlName="last_name" id="last_name" type="text" class="validate">
+            </div>
+            <div class="input-field">
+              <h5>Email</h5>
+              <input formControlName="email" id="email3" type="email" class="validate" [disabled]="true">
+            </div>
+            <div class="input-field">
+              <h5>Contact</h5>
+              <input formControlName="contact" id="email3" type="phone" class="validate">
+            </div>
+            <div class="input-field">
+              <h5>Address</h5>
+              <textarea formControlName="address" id="textarea-normal" class="materialize-textarea validate"></textarea>
+            </div>
+            <div class="input-field input-button">
+              <div class="schedule-event-btn">
+                <button ion-button class="primary-bg schedule-btn" [disabled]="loading" (click)="updateProfile()">
+                  <ion-spinner *ngIf="loading" style="width: 20px;vertical-align: middle;margin-right: 5px;"></ion-spinner><i class="icon-edit" *ngIf="!loading"></i><span>Update</span></button>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div class="input-field">
+          <div class="checkout-btn account-label d-flex">
+            <a class="waves-effect waves-light btn-small logout_btn" (click)="logout()">
+              <ion-spinner *ngIf="loggingOut" style="width: 20px;vertical-align: middle;margin-right: 5px;"></ion-spinner><i class="icon-log-out" *ngIf="!loggingOut"></i> Log Out</a>
+            <a class="waves-effect waves-light btn-small lighten-2 delete_btn" (click)="confirmDeleteAccount()">
+              <ion-spinner *ngIf="deletingAccount" style="width: 20px;vertical-align: middle;margin-right: 5px;"></ion-spinner><i class="icon-delete" *ngIf="!deletingAccount"></i>Delete Account</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</ion-content>

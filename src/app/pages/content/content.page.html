@@ -1,0 +1,56 @@
+<ion-content [fullscreen]="true">
+  <section class="content-area">
+
+    <div class="project-details" *ngIf="loading && !pageContent">
+      <div class="card-content">
+        <div class="row valign-wrapper bot-0 center">
+          <div class="col">
+            <ion-spinner *ngIf="loading"></ion-spinner>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="project-details" *ngIf="pageContent && !loading">
+      <div class="holiday-list">
+        <div class="holiday-list-heading">
+          <h5 *ngIf="pageContent.heading">{{ pageContent.heading }}</h5>
+          <h5 *ngIf="type == 'get-support-contact'">Support Contact</h5>
+          <h5 *ngIf="type == 'get-faq'">Frequently Asked Questions</h5>
+        </div>
+        <div class="holiday-listing" style="text-align: justify;">
+          <p *ngIf="pageContent.content">{{ pageContent.content }}</p>
+
+          <table class="rwd-table" *ngIf="type == 'get-support-contact'">
+            <tr>
+              <th style="text-align: center;">{{ pageContent.person }}</th>
+            </tr>
+            <tr>
+              <td style="text-align: center;">{{ pageContent.email }} <br> {{ pageContent.email2 }}</td>
+            </tr>
+            <tr>
+              <td style="text-align: center;">{{ pageContent.phone }} <br> {{ pageContent.phone2 }}</td>
+            </tr>
+            <tr>
+              <td style="text-align: center;">{{ pageContent.address }}</td>
+            </tr>
+          </table>
+
+          <table class="rwd-table" *ngIf="type == 'get-faq'">
+            <tr *ngIf="!pageContent?.length">
+              <th style="text-align: center;">No FAQs found.</th>
+            </tr>
+            <div *ngFor="let faq of pageContent">
+              <tr>
+                <th style="text-align: center;">{{ faq.question }}</th>
+              </tr>
+              <tr>
+                <td style="text-align: center;">{{ faq.answer }}</td> 
+              </tr>
+            </div>
+          </table>
+
+        </div>
+      </div>
+    </div>
+  </section>
+</ion-content>

@@ -1,0 +1,47 @@
+<ion-content [fullscreen]="true">
+  <section class="content-area home-page">
+    <div class="container">
+      <div class="row">
+        <div class="checkout-btn holiday-label d-flex">
+          <a class="waves-effect waves-light btn-small lighten-2" (click)="currentTab = 'userNotice'" [class.dark-grey-bg] = "currentTab != 'userNotice'" [class.primary-bg] = "currentTab == 'userNotice'">Persional Notice</a>
+          <a class="waves-effect waves-light btn-small lighten-2" (click)="currentTab = 'userGroupNotice'" [class.dark-grey-bg] = "currentTab != 'userGroupNotice'" [class.primary-bg] = "currentTab == 'userGroupNotice'">Group Notice</a>
+        </div>
+      </div>
+      <div class="row notice-list center" *ngIf="isNoticeDataLoading">
+        <div class="card darken-1">
+          <div class="card-content">
+            <ion-spinner></ion-spinner>
+          </div>
+        </div>
+      </div>
+      <div class="row notice-list" *ngIf="currentTab == 'userNotice' && !isNoticeDataLoading">
+        <div class="card darken-1" *ngFor="let notice of noticeData">
+          <div class="card-content">
+            <h4 class="card-title">{{ notice.notice_subject }}</h4>
+            <p [innerHTML]="notice.notice_contant"></p>
+            <div class="card-action" *ngIf="notice.notice_file">
+              <a [href]="notice.notice_file"><i class="mdi mdi-attachment"></i> Attachment</a>
+            </div>
+          </div>
+        </div>
+        <div class="card darken-1" *ngIf="!noticeData?.length">
+          <div class="card-content">No Personal Notice(s) found!</div>
+        </div>
+      </div>
+      <div class="row notice-list" *ngIf="currentTab == 'userGroupNotice' && !isNoticeDataLoading">
+        <div class="card darken-1" *ngFor="let notice of groupNoticeData">
+          <div class="card-content">
+            <h4 class="card-title">{{ notice.notice_subject }}</h4>
+            <p [innerHTML]="notice.notice_contant"></p>
+            <div class="card-action" *ngIf="notice.notice_file">
+              <a [href]="notice.notice_file"><i class="mdi mdi-attachment"></i> Attachment</a>
+            </div>
+          </div>
+        </div>
+        <div class="card darken-1" *ngIf="!groupNoticeData?.length">
+          <div class="card-content">No Group Notice(s) found!</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</ion-content>

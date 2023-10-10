@@ -1,0 +1,32 @@
+
+/*----------------------------------------
+  Drop Down
+------------------------------------------*/
+
+.dropdown-content li{min-height: auto !important; line-height: 1.5 !important;}
+.dropdown-content li>a, .dropdown-content li>span{
+  color: var(--black-color);
+  font-size: 12px;
+  padding:15px 5px;
+  line-height: 1;
+}
+.dropdown-content li>a>i{
+  margin: 0 10px 0 0;
+}
+.dropdown-content{
+  border-radius: 10px;
+}
+/*----------------------------------------
+  Site - Dark Mode - Dropdown
+----------------------------------------*/
+[data-site_mode="dark"] .dropdown-content{
+  background-color: #37474F;
+}
+[data-site_mode="dark"] .dropdown-content li>a, 
+[data-site_mode="dark"] .dropdown-content li>span{
+  color: #f5f5f5;
+}
+[data-site_mode="dark"] .dropdown-content li:hover, 
+[data-site_mode="dark"] .dropdown-content li.active {
+    background-color: rgba(33,33,33,0.25);
+}

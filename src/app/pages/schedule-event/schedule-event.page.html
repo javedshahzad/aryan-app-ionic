@@ -1,0 +1,54 @@
+<ion-content class="schedule-event-content" [fullscreen]="true">
+  <section class="content-area schedule-event">
+    <div class="container">
+      <div class="row">
+        <div class="customer-form">
+          <form [formGroup]="scheduleEventForm">
+            <div class="input-field">
+              <h5>Select Customer</h5>
+              <div class="input-search-field">
+                <input type="text" id="customer_name" formControlName="customer_name" class="autocomplete" placeholder="First Name">
+                <!-- <select id="customer_name" formControlName="customer_name" style="font-weight: normal;">
+                  <option value="">Select Customer</option>
+                  <option *ngFor="let customer of customerOptions" [value]="customer.user_first_name">{{ customer.user_first_name }}</option>
+                </select> -->
+              </div>
+            </div>
+            <div class="input-field">
+              <div class="activity-card d-flex">
+                <div class="follow-up" [class.active]="scheduleEventForm.controls['event_type'].value == 'follow_up'" (click)="eventTypeChanged('follow_up')">
+                  <label><i class="icon-phone"></i>Follow Up</label>
+                </div>
+                <div class="follow-up" [class.active]="scheduleEventForm.controls['event_type'].value == 'meeting'" (click)="eventTypeChanged('meeting')">
+                  <label><i class="icon-users"></i>Meeting</label>
+                </div>
+                <div class="follow-up" [class.active]="scheduleEventForm.controls['event_type'].value == 'site_visit'" (click)="eventTypeChanged('site_visit')">
+                  <label><i class="icon-calender"></i>Site Visit</label>
+                </div>
+              </div>
+            </div>
+            <div class="input-field d-flex schedule-date-icon">
+              <div class="input-field-date">
+                <i class="icon-calender-outline"></i>
+                <input type="text" formControlName="event_date" id="datepicker-input" class="datepicker" placeholder="Select Date">
+              </div>
+              <div class="input-field-time">
+                <i class="icon-watch"></i>
+                <input type="text" formControlName="event_time" id="timepicker-input" class="timepicker" placeholder="Select Time">
+              </div>
+            </div>
+            <div class="input-field">
+              <h5>Add Note</h5>
+              <textarea id="textarea-normal" formControlName="event_notes" class="materialize-textarea validate"></textarea>
+            </div>
+            <div class="input-field input-button">
+              <div class="schedule-event-btn">
+                <button class="primary-bg schedule-btn" [disabled]="loading" (click)="saveScheduleEvent()"><ion-spinner *ngIf="loading" style="width: 20px;vertical-align: middle;margin-right: 5px;"></ion-spinner><i class="icon-calender-outline" *ngIf="!loading"></i><span>{{ loading ? 'Saving...' : 'Schedule Event' }}</span></button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</ion-content>

@@ -1,0 +1,28 @@
+:host {
+    .follow-up {
+        position: relative;
+        padding: 2px 5px;
+        .count {
+            background-color: var(--primary-color);
+            border-radius: 5px;
+            color: #fff;
+            padding: 4px;
+            font-size: 13px;
+            margin: 2%;
+            text-align: center;
+        }
+    }
+    .custom-img{
+        height: 35px;
+        width: 35px;
+    }
+    .calender-btn{
+    background: #ffffff;
+    padding: 5px;
+    border-radius: 8px;
+    text-align: center;
+    h5{
+       margin: 10px;
+    }
+    }
+}

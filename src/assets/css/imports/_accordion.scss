@@ -1,0 +1,135 @@
+
+/*----------------------------------------
+ Accordion
+------------------------------------------*/
+/*----------------------------------------
+  Site - Dark Mode - collapsible
+----------------------------------------*/
+.collapsible.transparent {
+	border: none;
+	border: 1px solid rgba(50, 50, 50, .07);
+	.collapsible-header {
+		background-color: var(--bg-transparent);
+		box-shadow: 0px -1px 3px rgba(0, 0, 0, .1);
+		box-shadow: none;
+		border: none;
+	}
+	li {
+		box-shadow: 0px -1px 3px rgba(0, 0, 0, .1);
+	}
+	.collapsible-body {
+		box-shadow: none;
+		border: none;
+	}
+}
+.collapsible.colored {
+	border: none;
+	li {
+		&:last-child {
+			.collapsible-header {
+				border-bottom: none;
+			}
+		}
+	}
+	.collapsible-header {
+		i {
+			background: rgba(0, 0, 0, .2);
+		}
+	}
+}
+.collapsible {
+	.collapsible-header.primary-bg {
+		background-color: var(--primary-color);
+		&:focus {
+			background-color: var(--primary-color);
+		}
+	}
+	.collapsible-header.accent-bg {
+		background-color: var(--accent-rgb);
+		&:focus {
+			background-color: var(--accent-rgb);
+		}
+	}
+	border-radius: 10px;
+	border: none;
+	li {
+		border-radius: 10px;
+		box-shadow: 0px -1px 5px rgba(0, 0, 0, .1);
+	}
+	.img {
+		border-radius: 10px;
+		margin-bottom: 15px;
+	}
+}
+.collapsible-header {
+	position: relative;
+	border-radius: 10px;
+	line-height: 36px;
+	font-size: 17px;
+	padding: 12px 15px;
+	border: none;
+	box-shadow: 0px -1px 5px rgba(0, 0, 0, .1);
+	&:after {
+		content: "\F140";
+		display: inline-block;
+		font: normal normal normal 24px/1 "Material Design Icons";
+		font-size: inherit;
+		text-rendering: auto;
+		line-height: inherit;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		position: absolute;
+		right: 15px;
+		font-size: 17px;
+		opacity: 0.7;
+	}
+	i {
+		width: 36px;
+		font-size: 16px;
+		display: inline-block;
+		background: var(--primary-color);
+		border-radius: 50%;
+		height: 36px;
+		line-height: 36px;
+		color: var(--white-color);
+	}
+}
+.active {
+	.collapsible-header {
+		&:after {
+			content: "\F143";
+		}
+	}
+}
+.collapsible-body {
+	border-radius: 10px;
+	border: none;
+}
+body {
+	.collapsible {
+		box-shadow: none;
+		border: none;
+	}
+	.collapsible.colored {
+		box-shadow: none;
+		border: none;
+	}
+}
+[data-site_mode="dark"] {
+	.collapsible-header {
+		background-color: var(--primary-color);
+		color: var(--light-grey-color);
+		border-color: var(--grey-color);
+		&:focus {
+			background-color: var(--primary-color);
+			color: var(--light-grey-color);
+			border-color: var(--grey-color);
+		}
+	}
+	.collapsible-body {
+		border-color: var(--grey-color);
+	}
+	.collapsible {
+		border-color: var(--grey-color);
+	}
+}

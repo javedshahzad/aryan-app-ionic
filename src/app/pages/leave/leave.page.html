@@ -1,0 +1,62 @@
+<ion-content [fullscreen]="true">
+  <section class="content-area holidays-page">
+    <div class="container">
+      <div class="row">
+        <div class="checkout-btn holiday-label d-flex">          
+          <span class="waves-effect waves-light btn-small lighten-2" [class.dark-grey-bg] = "currentTab != 'leave'" [class.primary-bg] = "currentTab == 'leave'" (click)="tabChanged('leave')">Apply Leave</span>
+          <span class="waves-effect waves-light btn-small lighten-2 primary-bg" [class.dark-grey-bg] = "currentTab != 'holidays'" [class.primary-bg] = "currentTab == 'holidays'" (click)="tabChanged('holidays')">Holiday List</span>
+        </div>
+      </div>     
+      <div class="row">
+        <div class="pd-15" *ngIf="currentTab == 'leave'">
+            <div class="holiday-list-heading customer-form">
+                <p>Hello {{ dataService.getUserData()?.admin_name }}, If You Want To Apply Leave So Please Fill This Form.</p>
+                <form [formGroup]="applyLeaveForm">
+                  <h4>Leave Date</h4>
+                  <div class="input-field d-flex schedule-date-icon">
+                    <div class="input-field-date">
+                      <i class="icon-calender-outline"></i>
+                      <input type="text" formControlName="leave_date" id="datepicker-input" class="datepicker" >
+                    </div>
+                  </div>
+                  <h4>Remark Notes</h4>
+                  <div class="input-field">
+                      <textarea id="textarea-normal" formControlName="remarks_notes" class="materialize-textarea validate" placeholder="Entre Remark notes here..."></textarea>
+                  </div>
+                  
+                  <div class="input-button">
+                    <div class="schedule-event-btn">
+                      <button class="primary-bg schedule-btn" [disabled]="loading" (click)="applyLeave()"><ion-spinner *ngIf="loading" style="width: 20px;vertical-align: middle;margin-right: 5px;"></ion-spinner>Apply Leave</button>
+                    </div>
+                  </div>
+                  
+                </form>
+            </div>
+           
+        </div>
+        <div class="holiday-list" *ngIf="currentTab == 'holidays'">
+          <div class="holiday-list-heading">
+            <h5>Holiday List</h5>
+          </div>
+          <div class="holiday-listing" [class.center]="holidayListLoading">
+            <ion-spinner *ngIf="holidayListLoading"></ion-spinner>
+            <table class="rwd-table" *ngIf="!holidayListLoading">
+              <tr>
+                <th>Holiday Name</th>
+                <th>Holiday Date</th>
+              </tr>
+              <tr *ngFor="let holiday of holidayList">
+                <td>{{ holiday.holiday_name }}</td>
+                <td>{{ holiday.holiday_date ? (holiday.holiday_date | date:'dd, MMM yyyy') : '' }}</td>
+              </tr>
+              <!-- <tr>
+                <td>Republic Day</td>
+                <td>26th, Jan 2024</td>
+              </tr> -->
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</ion-content>

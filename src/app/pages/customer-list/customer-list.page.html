@@ -1,0 +1,34 @@
+<ion-content [fullscreen]="true">
+  <section class="content-area home-page">
+    <div class="container">
+      <!-- <div class="row">
+        <div class="checkout-btn right">
+          <a class="waves-effect waves-light btn primary-bg lighten-2">Clear All</a>
+        </div>
+      </div> -->
+      <div class="row notification-list">
+        <div class="card-panel z-depth-1 profile-col-box pd-15" *ngFor="let customer of customerList">
+          <div class="row valign-wrapper bot-0">
+            <div class="col">
+              <h3>{{ customer.user_first_name }} | {{ customer.user_phone }}</h3>
+              <span class="">Email : {{ customer.user_email }}</span>
+              <span class="" *ngIf="customer?.min_budget && customer?.max_budget">Budget : {{ customer.min_budget }} - {{ customer.max_budget }}</span>
+              <span class="" *ngIf="customer?.property_status">Property Status : {{ customer.property_status }}</span>
+              <span class="" *ngIf="customer?.user_city">Location : {{ customer.user_city }}</span>
+              <span class="" *ngIf="customer?.unit_type">Unit : {{ customer.unit_type }}</span>
+              <span class="" *ngIf="customer?.data_source">Data Source : {{ customer.data_source }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-panel z-depth-1 profile-col-box pd-15" *ngIf="customerDataLoading || (!customerDataLoading && !customerList?.length)">
+          <div class="row valign-wrapper bot-0 center">
+            <div class="col">
+              <ion-spinner *ngIf="customerDataLoading"></ion-spinner>
+              <h3 *ngIf="!customerDataLoading && !customerList?.length">No Customers Found!</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</ion-content>

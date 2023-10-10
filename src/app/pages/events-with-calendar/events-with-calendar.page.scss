@@ -1,0 +1,62 @@
+
+ion-content{
+    --background: #efefef;
+    --padding-top: 45px;
+    --padding-bottom: 75px;
+}
+.text-style{
+    border: 1px solid var(--primary-color) !important;
+    margin: 0;
+    height: auto;
+    min-height: 170px;
+    border-radius: 5px;
+    padding: 8px;
+}
+.border-bottom{
+    border-bottom: 1px solid #9d9fa6;
+}
+.icon-style{
+    font-size: 22px;
+    margin-bottom: -4px;
+}
+ion-datetime{
+    border-radius: 15px;
+    height: 300px;
+}
+.btn-style{
+    font-size: 15px;
+}
+.date{
+    margin: 5px auto;
+    font-size: 12px;
+    font-weight: 600;
+}
+.follow-up{
+    margin: 5px auto;
+    font-size: 11px;
+    color: #5260ff;
+}
+.follow-meeting{
+    margin: 5px auto;
+    font-size: 11px;
+    color: green;
+}
+.follow-site{
+    margin: 5px auto;
+    font-size: 11px;
+    color: #eb445a;
+}
+.icon-follow{
+    font-size: 11px;
+    margin-bottom: -2px;
+}
+.no-event{
+    border: 1px solid #9d9fa6;
+    border-radius: 14px;
+    padding: 10px;
+    margin: 12px 0px 12px 0px;
+    font-size: 15px;
+}
+.m-r-2{
+    margin: 2px;
+}

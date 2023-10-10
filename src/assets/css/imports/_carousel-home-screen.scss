@@ -1,0 +1,64 @@
+/*----------------------------------------
+  Carousel Home Screen
+------------------------------------------*/
+.fullfixed {
+	position: relative;
+	z-index: 1;
+}
+.welcome-logo.index-welcome {
+	position: relative;
+	z-index: 2;
+	max-width: 200px;
+	text-align: center;
+	margin: 0 auto;
+}
+.index-start {
+	text-align: center;
+	width: 100%;
+	display: inline-block;
+	position: absolute;
+	z-index: 2;
+	bottom: 40px;
+	left: 0;
+	right: 0;
+	.btn-large {
+		width: 80%;
+		margin: 0;
+		&:hover {
+			background-color: var(--indigo-color);
+			color: var(--white-color);
+		}
+	}
+}
+.welcome-page {
+	padding-top: 50px;
+	.item-content {
+		h3 {
+			font-size: 22px;
+		}
+		h5 {
+			font-size: 18px;
+		}
+	}
+	.carousel.carousel-fullscreen {
+		.carousel-item {
+			.item-content {
+				padding: 15% 20px;
+			}
+		}
+	}
+}
+.carousel.carousel-fullscreen {
+	.carousel-item {
+		.item-content {
+			padding-top: 100px;
+		}
+	}
+}
+.fullfixed.index-carousel {
+	.carousel.carousel-fullscreen {
+		.indicators {
+			bottom: 110px;
+		}
+	}
+}

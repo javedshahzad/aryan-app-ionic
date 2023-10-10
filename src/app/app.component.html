@@ -1,0 +1,152 @@
+<ion-app>
+    <!-- START navigation -->
+    <nav class="fix_topscroll  topbar" [style.visibility]="hideSlideMenuAndFooterPages.includes(route.url) ? 'hidden' : 'visible'">
+        <div class="nav-wrapper container">
+            <a id="logo-container" routerLink="/home" class="brand-logo"><img src="assets/images/logo/aryan-logo.png" class="aryan-logo"></a>
+            <a href="#" data-target="slide-nav" (click)="closeMenu()"
+                class="waves-effect waves-circle navicon sidenav-trigger show-on-large"><i class="mdi mdi-menu"></i></a>
+            <a routerLink="/notification-list" data-target="slide-settings"
+                class="waves-effect waves-circle navicon right sidenav-trigger show-on-large"><i
+                    class="icon-alert"></i></a>
+            <!-- <a href="#" data-target="" class="waves-effect waves-circle navicon right nav-site-mode show-on-large"><i
+                    class="icon-favorite"></i></a>
+            <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a> -->
+        </div>
+    </nav>
+    <ul id="slide-nav" class="sidenav sidemenu" [style.visibility]="hideSlideMenuAndFooterPages.includes(route.url) ? 'hidden' : 'visible'">
+        <li class="user-wrap">
+            <div class="user-view">
+                <div class="row" *ngIf="userData">
+                    <div class="col s4">
+                        <div class="img-wrap circle">
+                            <img [src]="userData.profile_img" alt="" class="circle responsive-img">
+                        </div>
+                        <!-- notice the "circle" class -->
+                    </div>
+                    <div class="col s8">
+                        <h3>{{ userData.admin_name }}</h3>
+                        <a routerLink="/profile" (click)="closeMenu()"><span class="name">View Profile Details</span></a>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="menulinks">
+            <ul class="collapsible">
+                <!-- Menu Data Start-->
+                <!-- <li class="lvl1 ">
+                    <div class=" waves-effect  active ui-pages-home ">
+                        <a routerLink="/project-list" (click)="closeMenu()">
+                            <i class="icon-favorite-outline"></i>
+                            <span class="title">favorite project</span></a>
+                    </div>
+                </li> -->
+                <li class="lvl1 ">
+                    <div class="waves-effect ui-pages-home">
+                        <a routerLink="/customer-landing" (click)="closeMenu()">
+                            <i class="icon-total-customer"></i>
+                            <span class="title">Customers</span></a>
+                    </div>
+                </li>
+                <li class="lvl1 ">
+                    <div class=" waves-effect ui-pages-home ">
+                        <a routerLink="/customer-list" (click)="closeMenu()">
+                            <i class="icon-Leave-Date"></i>
+                            <span class="title">Lead Manager</span></a>
+                    </div>
+                </li>
+                <li class="lvl1 ">
+                    <div class="waves-effect ui-pages-home">
+                        <a routerLink="/notice" (click)="closeMenu()">
+                            <i class="icon-Notice"></i>
+                            <span class="title">Notice</span></a>
+                    </div>
+                </li>
+                <li class="lvl1 ">
+                    <div class="waves-effect ui-pages-home">
+                        <a routerLink="/schedule-event" (click)="closeMenu()">
+                            <i class="icon-bookings"></i>
+                            <span class="title">Event Scheduled</span></a>
+                    </div>
+                </li>
+                <li class="lvl1 ">
+                    <div class="waves-effect ui-pages-home">
+                        <a routerLink="/leave" (click)="closeMenu()">
+                            <i class="icon-Leave-Date"></i>
+                            <span class="title">Leave Date</span></a>
+                    </div>
+                </li>
+                <li class="lvl1 ">
+                    <div class="waves-effect ui-pages-home">
+                        <a routerLink="/content/get-support-contact" (click)="closeMenu()">
+                            <i class="icon-Help--Support"></i>
+                            <span class="title">Help Support</span></a>
+                    </div>
+
+                    <ul class="sub-menu">
+                        <li class="lvl1 ">
+                            <div class="waves-effect ui-pages-home">
+                                <a routerLink="/content/get-faq" (click)="closeMenu()">
+                                    <i class="icon-FAQs"></i>
+                                    <span class="title">FAQs</span></a>
+                            </div>
+                        </li>
+                        <li class="lvl1 ">
+                            <div class="waves-effect ui-pages-home">
+                                <a routerLink="/content/get-support-contact" (click)="closeMenu()">
+                                    <i class="icon-in-call-centre"></i>
+                                    <span class="title">Call for Support</span></a>
+                            </div>
+                        </li>
+                        <li class="lvl1 ">
+                            <div class="waves-effect ui-pages-home">
+                                <a routerLink="/content/get-terms" (click)="closeMenu()">
+                                    <i class="icon-Terms-Of-Use"></i>
+                                    <span class="title">Terms of Use</span></a>
+                            </div>
+                        </li>
+                        <li class="lvl1 ">
+                            <div class="waves-effect ui-pages-home">
+                                <a routerLink="/content/get-policy" (click)="closeMenu()">
+                                    <i class="icon-Terms-Of-Use"></i>
+                                    <span class="title">Privacy Policy</span></a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+    </ul>
+    <!-- END navigation -->
+    <ion-router-outlet [swipeGesture]="false"></ion-router-outlet>
+
+    <div class="backtotop" *ngIf="!hideSlideMenuAndFooterPages.includes(route.url)">
+        <a class="btn-floating btn primary-bg">
+            <i class="mdi mdi-chevron-up"></i>
+        </a>
+    </div>
+
+    <div class="footer-menu nonfixed boxed bordered" *ngIf="!hideSlideMenuAndFooterPages.includes(route.url)">
+        <ul>
+            <li>
+                <a routerLink="/home" [class.active]="route.url == '/home'"> <i class="icon-Apartment"></i>
+                    <span>Home</span>
+                </a>
+            </li>
+            <li>
+                <a routerLink="/project-list" [class.active]="route.url == '/project-list'"> <i class="icon-projects"></i>
+                    <span>Project</span>
+                </a>
+            </li>
+            <li>
+                <a routerLink="/customer-landing" [class.active]="route.url == '/customer-landing'"> <i class="icon-Customers"></i>
+                    <span>Customers</span>
+                </a>
+            </li>
+            <li>
+                <a routerLink="/notice" [class.active]="route.url == '/notice'"> <i class="icon-Notice"></i>
+                    <span>Notice</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+</ion-app>

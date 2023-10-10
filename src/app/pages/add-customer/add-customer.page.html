@@ -1,0 +1,70 @@
+<ion-content [fullscreen]="true">
+  <section class="content-area addcustomer-page">
+    <!-- <h1 class="white-text center welcome-logo index-welcome"><img src="assets/images/logo/aryan-logo.png"></h1> -->
+    <div class="container">
+      <div class="row">
+        <div class="customer-form">
+          <form [formGroup]="addCustomerForm">
+            <div class="input-field">
+              <input id="name" formControlName="c_name" type="text" class="validate" placeholder="First Name">
+            </div>
+            <div class="input-field">
+              <input id="email" formControlName="c_email" type="email" class="validate" placeholder="Email Address">
+            </div>
+            <div class="input-field d-flex">
+              <div class="input-code">
+                <input id="pin" type="tel" class="pin-code" placeholder="+91" disabled>
+              </div>
+              <div class="input-mobile-no">
+                <input id="phone" formControlName="c_phone" type="tel" class="validate" placeholder="Phone Number*">
+              </div>
+            </div>
+            <div class="input-field">
+              <h5>Project Preferences (Optional)</h5>
+              <div class="input-search-field">
+                <select id="location" formControlName="c_project_location">
+                  <option value="">Search For Locations</option>
+                  <option *ngFor="let location of propertyLocationOptions" [value]="location">{{ location }}</option>
+                </select>
+              </div>
+            </div>
+            <div class="input-field d-flex">
+              <select id="minBudget" formControlName="c_min_budget">
+                <option value="">Min Budget</option>
+                <option *ngFor="let budget of budgetOptions" [value]="budget">{{ budget }}</option>
+              </select>
+              <select id="maxBudget" formControlName="c_max_budget">
+                <option value="">Max Budget</option>
+                <option *ngFor="let budget of budgetOptions" [value]="budget">{{ budget }}</option>
+              </select>
+            </div>
+            <div class="input-field">
+              <select id="unitType" formControlName="c_unit_type">
+                <option value="">Unit Type</option>
+                <option *ngFor="let unit of unitTypeOptions" [value]="unit">{{ unit }}</option>
+              </select>
+            </div>
+            <div class="input-field">
+              <select id="propertyStatus" formControlName="c_property_status">
+                <option value="">Property Status</option>
+                <option *ngFor="let propertyStatus of propertyStatusOptions" [value]="propertyStatus">{{ propertyStatus }}</option>
+              </select>
+            </div>
+            <div class="input-field input-button" *ngIf="!selectedCustomer">
+              <button class="schedule-btn primary-bg" [disabled]="loading" (click)="saveCustomer()">
+                <ion-spinner *ngIf="loading" style="width: 20px;vertical-align: middle;margin-right: 5px;"></ion-spinner>
+                Add Customer
+              </button>
+            </div>
+            <div class="input-field input-button" *ngIf="selectedCustomer">
+              <button class="schedule-btn primary-bg" [disabled]="loading" (click)="UpdateCustomer()">
+                <ion-spinner *ngIf="loading" style="width: 20px;vertical-align: middle;margin-right: 5px;"></ion-spinner>
+                Update Customer details
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</ion-content>

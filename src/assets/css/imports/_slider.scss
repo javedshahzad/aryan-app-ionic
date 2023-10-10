@@ -1,0 +1,92 @@
+/*----------------------------------------
+  Slider
+------------------------------------------*/
+.slider {
+	.indicators {
+		bottom: 50px;
+		z-index: 2;
+		.indicator-item {
+			border: none;
+			height: 4px;
+			width: 20px;
+			margin: 6px;
+			border: 1px solid rgba(230,230,230,0.8);
+			background-color: var(--bg-transparent);
+			box-shadow: 2px 2px 2px rgba(33,33,33,.1);
+			border-radius: 2px;
+		}
+		.indicator-item.active {
+			background-color: var(--light-grey-color);
+			border: none;
+		}
+	}
+	.slides {
+		li {
+			img {
+				position: absolute;
+			}
+		}
+	}
+}
+.slides {
+	.img-wrap {
+		height: 100%;
+	}
+}
+body {
+	.noUi-horizontal {
+		.noUi-handle {
+			width: 23px;
+			height: 23px;
+			left: -10px;
+			top: -10px;
+		}
+	}
+	.noUi-vertical {
+		.noUi-handle {
+			width: 23px;
+			height: 23px;
+			left: -10px;
+			top: -10px;
+		}
+	}
+	.noUi-handle-touch-area {
+		position: relative;
+		width: 55px;
+		height: 55px;
+		left: -17px;
+		top: -16px;
+	}
+	.noUi-target.noUi-horizontal {
+		.noUi-tooltip {
+			height: 30px;
+			width: 30px;
+			top: -13px;
+			left: 0px;
+		}
+	}
+	.noUi-target.noUi-vertical {
+		.noUi-tooltip {
+			height: 30px;
+			width: 30px;
+			top: -13px;
+			left: -2px;
+		}
+	}
+}
+.slider.dark-text {
+	.slides {
+		li {
+			.caption {
+				p {
+					color: var(--grey-color);
+				}
+			}
+		}
+	}
+}
+.slider.fullscreen {
+	ul.indicators {
+		bottom: 70px;
+	}
+}

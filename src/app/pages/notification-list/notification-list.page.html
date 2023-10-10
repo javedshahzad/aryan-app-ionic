@@ -1,0 +1,38 @@
+<ion-content [fullscreen]="true">
+  <section class="content-area home-page">
+    <div class="container">
+      <!-- <div class="row">
+        <div class="checkout-btn right">
+          <a class="waves-effect waves-light btn primary-bg lighten-2">Clear All</a>
+        </div>
+      </div> -->
+      <div class="row notification-list">
+        <div class="card-panel z-depth-1 profile-col-box pd-15" *ngFor="let notification of notificationData">
+          <div class="row valign-wrapper bot-0">
+            <div class="col">
+              <a class="img-wrap circle">
+                <img [src]="notification.profile_img" alt="" class="circle responsive-img">
+              </a>
+              <!-- notice the "circle" class -->
+            </div>
+            <div class="col">
+              <h3>{{ notification.req_name }}</h3>
+              <span class="">{{ notification.req_comment }}</span>
+              <div class="card-action">
+                <span>{{ timeSince(notification.req_created) }} ago</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-panel z-depth-1 profile-col-box pd-15" *ngIf="notificationDataLoading || (!notificationDataLoading && !notificationData?.length)">
+          <div class="row valign-wrapper bot-0 center">
+            <div class="col">
+              <ion-spinner *ngIf="notificationDataLoading"></ion-spinner>
+              <h3 *ngIf="!notificationDataLoading && !notificationData?.length">No Notifications Found!</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</ion-content>

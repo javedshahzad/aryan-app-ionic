@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1091753766850",
+    "project_id": "aryanrealty-crm",
+    "storage_bucket": "aryanrealty-crm.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1091753766850:android:1ff3a02b438817e9d6b05b",
+        "android_client_info": {
+          "package_name": "com.aryanReality.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1091753766850-kia2o4kkeesa5iavpmb2tott9phd5b8n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGdn2ysMfPOcM8uTrqlaiAzY1PTYQHHYw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1091753766850-kia2o4kkeesa5iavpmb2tott9phd5b8n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

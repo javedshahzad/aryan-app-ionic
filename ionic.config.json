@@ -1,0 +1,10 @@
+{
+  "name": "ionic-app-base",
+  "integrations": {
+    "capacitor": {},
+    "cordova": {
+      "enabled": false
+    }
+  },
+  "type": "angular"
+}

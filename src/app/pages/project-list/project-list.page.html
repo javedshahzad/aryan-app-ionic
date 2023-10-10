@@ -1,0 +1,136 @@
+<ion-content [fullscreen]="true">
+  <section class="content-area project-list">
+    <div class="container">
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <h4 class="ion-text-center green-text">Search Project</h4>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="6">
+              <ion-select class="itemclass" label="Filter" id="filterBy" [(ngModel)]="filters.filter_by" (ionChange)="getProjectList()">
+                <ion-select-option *ngFor="let filterOption of filterOptions" [value]="filterOption.name">{{ filterOption.name }}</ion-select-option>
+              </ion-select>
+          </ion-col>
+          <ion-col size="6">
+            <ion-select class="itemclass" label="Sort By" id="sortBy" [(ngModel)]="filters.sort_by" (ionChange)="getProjectList()">
+              <ion-select-option [value]="'ASC'">ASC</ion-select-option>
+              <ion-select-option [value]="'DESC'">DESC</ion-select-option>
+            </ion-select>
+          </ion-col>          
+        </ion-row>
+      <ion-row>
+        <ion-col size="6">
+            <ion-select class="itemclass" label="Developer" id="developerList" [(ngModel)]="filters.developer" (ionChange)="getProjectList()">
+              <ion-select-option *ngFor="let projectDeveloper of projectDeveloperOptions" [value]="projectDeveloper.developer">{{ projectDeveloper.developer }}</ion-select-option>
+            </ion-select>
+        </ion-col>
+        <ion-col size="6">
+          <ion-select class="itemclass" label="Unit Type" id="unitType" [(ngModel)]="filters.unit" (ionChange)="getProjectList()">
+            <ion-select-option *ngFor="let unit of unitTypeOptions" [value]="unit">{{unit}}</ion-select-option>
+          </ion-select>
+        </ion-col>          
+      </ion-row>
+      </ion-grid>
+      <!-- <div class="row project-filter">
+        <div class="project-search">
+          <div class="search-bar">
+            <div class="d-flex">
+              <ul class="collapsible expandable">
+                <li class="active">
+                  <div class="collapsible-header"> <a class='dropdown-trigger btn deep-purple lighten-2' href='javascript:;'
+                      data-target='dropdown273057803'>Search <i class="mdi mdi-chevron-down"></i></a></div>
+                  <div class="collapsible-body ">
+                    <div class="filters">
+                      <div class="filter-list">
+                        <div class="section ui-dropdowns">
+                          <ion-select label="Select Filter" id="filterBy" [(ngModel)]="filters.filter_by" (ionChange)="getProjectList()">
+                            <ion-select-option value="">Filter</ion-select-option>
+                            <ion-select-option *ngFor="let filterOption of filterOptions" [value]="filterOption.name">{{ filterOption.name }}</ion-select-option>
+                          </ion-select>
+                        </div>
+                      </div>
+                      <div class="short-list">
+                        <div class="section ui-dropdowns">
+                          <select id="sortBy" [(ngModel)]="filters.sort_by" (change)="getProjectList()">
+                            <option value="">Sort By</option>
+                            <option [value]="'ASC'">ASC</option>
+                            <option [value]="'DESC'">DESC</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="developed-list">
+                        <select id="developerList" [(ngModel)]="filters.developer" (change)="getProjectList()">
+                          <option value="">Developer</option>
+                          <option *ngFor="let projectDeveloper of projectDeveloperOptions" [value]="projectDeveloper.developer">{{ projectDeveloper.developer }}</option>
+                        </select>
+                      </div>
+                      <div class="unittype-list">
+                        <select id="unitType" [(ngModel)]="filters.unit" (change)="getProjectList()">
+                          <option value="">Unit Type</option>
+                          <option *ngFor="let unit of unitTypeOptions" [value]="unit">{{ unit }}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+              <div class="exclusive-toggle d-flex">
+                <label>Exclusive Only</label>
+                <div class="switch danger medium">
+                  <label>
+
+                    <input checked="" type="checkbox">
+                    <span class="lever"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> -->
+      <ion-list *ngIf="projectListLoading || (!projectListLoading && !projectList?.length)">
+        <div class="card">
+          <div class="row valign-wrapper bot-0 center">
+            <div class="col">
+              <ion-spinner *ngIf="projectListLoading"></ion-spinner>
+              <h3 *ngIf="!projectListLoading && !projectList?.length">No Projects Found!</h3>
+            </div>
+          </div>
+        </div>
+      </ion-list>
+      <ion-list *ngIf="projectList?.length && !projectListLoading" class="bg-list">
+        <div class="card" *ngFor="let project of projectList" >
+          <div class="card-image">
+            <img [src]="project?.project_main_image">
+            <div class="images-label">
+              <a class="waves-effect waves-light btn-small lighten-2 primary-bg" *ngIf="project?.is_latest == '1'">Hot Selling</a>
+              <a class="waves-effect waves-light btn-small grey-bg lighten-2" *ngIf="project?.is_featured == '1'">Exclusive</a>
+            </div>
+          </div>
+          <div class="card-content" (click)="goToProjectDetails(project.project_id)">
+            <div class="project-title">
+              <h3>{{ project.project_title}}</h3>
+              <p>{{ project.project_location_text }}</p>
+            </div>
+            <!-- <div class="project-favorite">
+              <span><i class="icon-favorite-outline"></i></span>
+            </div> -->
+          </div>
+          <div class="project-animites">
+            <ul>
+              <li><i class="icon-rupee"></i>{{ project.project_price }} {{ project.price_type }}</li>
+              <li><i class="icon-Apartment"></i>{{ project.category }}</li>
+              <li><i class="icon-Possession"></i>Possession: {{ project.expected_possession }}</li>
+              <li><i class="icon-home-outline"></i>{{ project.project_type }}</li>
+            </ul>
+          </div>
+        </div>
+      </ion-list>
+      <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+    </div>
+  </section>
+</ion-content>

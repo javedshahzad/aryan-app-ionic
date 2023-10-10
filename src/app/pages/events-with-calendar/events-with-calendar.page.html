@@ -1,0 +1,58 @@
+<ion-content [fullscreen]="true">
+  <div class="container">
+    <h4 (click)="gotoBack()"><ion-icon name="arrow-back-outline" class="icon-style"></ion-icon> Calendar</h4>
+    <br>
+    <ion-datetime presentation="date" [(ngModel)]="selectedDate" (ionChange)="OnDateChange($event)" size="cover"></ion-datetime>
+    <br>
+    <ion-grid class="ion-no-padding">
+      <ion-row class="ion-no-padding border-bottom" *ngFor="let event of AllEventsList">
+        <ion-col class="ion-no-padding">
+          <h5 class="date">{{ event?.event_date | date:'y-M-d' }}</h5>
+        </ion-col>
+        <ion-col class="ion-no-padding">
+       <h5 class="follow-up">
+        <ion-icon name="call" class="icon-follow"></ion-icon>
+        {{event?.follow_up || 0}} Follow Up
+       </h5>
+        </ion-col>
+        <ion-col class="ion-no-padding">
+          <h5 class="follow-meeting">
+           <ion-icon name="calendar" class="icon-follow"></ion-icon>
+           {{event?.meeting || 0}} Meeting
+          </h5>
+           </ion-col>
+           <ion-col class="ion-no-padding">
+            <h5 class="follow-site">
+             <ion-icon name="people" class="icon-follow"></ion-icon>
+             {{event?.site_visit || 0}} Site Visit
+            </h5>
+             </ion-col>
+             <ion-col size="12">
+              <h5 class="no-event" *ngIf="event?.event_list.length === 0">
+                No event schedule
+              </h5>
+              <ng-container *ngIf="event?.event_list.length > 0">
+                <div class="no-event" *ngFor="let eventlist of event?.event_list">
+                  <p class="ion-text-capitalize m-r-2">&nbsp; Type: {{ eventlist?.event_type || "meeting"}}</p>
+                  <p class="ion-text-capitalize m-r-2">&nbsp; Name: {{ eventlist?.customer_name || "User"}}</p>
+                  <p class="m-r-2" style="color: #666666;">&nbsp; Note: {{eventlist.event_notes}}</p>
+                  <p class="m-r-2">
+                    <span>
+                      <i class="mdi mdi-circle" style="color: var(--primary-color);font-size: 8px;margin-right: 3px;vertical-align: middle;"></i>{{eventlist?.event_date}}
+                    </span>
+                  </p>
+                </div>
+              </ng-container>
+              
+             </ion-col>
+      </ion-row>
+      <ion-row *ngIf="AllEventsList.length === 0">
+        <ion-col>
+          <h5 class="no-event" >
+            No event schedule
+          </h5>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>

@@ -1,0 +1,54 @@
+:root {
+  --primary-color: #136035 /*deep-purple*/;
+  --primary-rgb: 19, 96, 53 /*deep-purple*/;
+  --primary-filter: 19, 96, 53 /*deep-purple*/;
+  --accent-color: #26C6DA /*cyan*/;
+  --accent-rgb: 38, 198, 218 /*cyan*/;
+  --white-color:#ffffff;
+  --black-color:#000000;
+  
+
+  --danger-color: #E57373; /*red*/
+  --success-color: #81C784; /*green*/
+  --info-color: #64B5F6; /*blue*/
+  --warning-color: #ffc107; /*blue*/
+
+  --deep-purple-color: #9575CD;
+  --red-color: #E57373;
+  --orange-color: #ff8a65;
+  --blue-color: #64B5F6;
+  --green-color: #81C784;
+  --teal-color: #4db6ac;
+  --amber-color: #ffc107;
+  --pink-color: #f06292;
+  --indigo-color: #31439b;
+  --blue-grey-color: #90a4ae;
+  --brown-color: #a1887f;
+  --cyan-color: #26C6DA;
+  --light-green-color: #8BC34A;
+  --purple-color: #BA68C8;
+  --grey-color: #888888;
+  --lightgrey-color: #eee;
+  --light-grey-color: #f2f2f2;
+  --light-gray:#dddddd;
+  
+--bg-transparent:transparent;
+
+
+  
+  --poppins-light: 'Poppins';
+    --poppins-rg: 'Poppins';
+    --poppins-semi-bold: 'Poppins';
+    --poppins-bold: 'Poppins';
+
+}
+
+
+body[data-theme="green"]{
+  --primary-color: #136035 /*deep-purple*/;
+  --primary-rgb: 19, 96, 53 /*deep-purple*/;
+  --primary-filter: 19, 96, 53 /*deep-purple*/;
+  
+
+
+}
