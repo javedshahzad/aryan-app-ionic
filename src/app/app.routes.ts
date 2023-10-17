@@ -10,7 +10,7 @@ export const routes: Routes = [
   {
     path: 'home',
     loadComponent: () => import('./pages/home/home.page').then(m => m.HomePage),
-    canActivate: [AuthGuard]
+    // canActivate: [AuthGuard]
   },
   {
     path: 'welcome',
@@ -71,14 +71,19 @@ export const routes: Routes = [
   {
     path: 'customer-summary-details/:status',
     loadComponent: () => import('./pages/customer-summary-details/customer-summary-details.page').then( m => m.CustomerSummaryDetailsPage)
-  },  {
+  },
+  {
     path: 'edit-customer-details',
     loadComponent: () => import('./pages/edit-customer-details/edit-customer-details.page').then( m => m.EditCustomerDetailsPage)
   },
   {
     path: 'events-with-calendar',
     loadComponent: () => import('./pages/events-with-calendar/events-with-calendar.page').then( m => m.EventsWithCalendarPage)
+  },  {
+    path: 'emi-calculator',
+    loadComponent: () => import('./pages/emi-calculator/emi-calculator.page').then( m => m.EmiCalculatorPage)
   }
+
 
 
 ];

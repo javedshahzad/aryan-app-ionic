@@ -1,9 +1,14 @@
+
+
+
 <ion-content [fullscreen]="true">
+
   <section class="content-area addcustomer-page">
     <!-- <h1 class="white-text center welcome-logo index-welcome"><img src="assets/images/logo/aryan-logo.png"></h1> -->
     <div class="container">
       <div class="row">
         <div class="customer-form">
+      
           <form [formGroup]="addCustomerForm">
             <div class="input-field">
               <input id="name" formControlName="c_name" type="text" class="validate" placeholder="First Name">
@@ -20,36 +25,185 @@
               </div>
             </div>
             <div class="input-field">
-              <h5>Project Preferences (Optional)</h5>
+              <h5>Project location preferences (Optional)</h5>
               <div class="input-search-field">
-                <select id="location" formControlName="c_project_location">
+
+                <mat-select #propertOpts formControlName="c_project_location">
+                  <mat-select-trigger>{{propertOpts.value|| "Search For Locations"}}</mat-select-trigger>
+                  <mat-option>
+                    <lib-mat-select-search
+                      [list]="propertyLocationOptions"
+                      [searchProperties]="['name']"
+                      [clearSearchInput]="true"
+
+                      (filtered)="propertyOptsList = $event">
+                    </lib-mat-select-search>
+                  </mat-option>
+                  <mat-option value="">Search For Locations</mat-option>
+                  <mat-option *ngFor="let location of propertyOptsList" [value]="location?.['name']">
+                    {{location?.['name']}}
+                  </mat-option>
+                </mat-select>
+
+                <!-- <select id="select_page" formControlName="c_project_location"  class="selectpicker"  data-live-search="true" >
                   <option value="">Search For Locations</option>
-                  <option *ngFor="let location of propertyLocationOptions" [value]="location">{{ location }}</option>
-                </select>
+                  <option *ngFor="let location of propertyLocationOptions" [value]="location" data-tokens="{{location}}">{{ location }}</option>
+                </select> -->
               </div>
             </div>
-            <div class="input-field d-flex">
-              <select id="minBudget" formControlName="c_min_budget">
+            <div class="input-field">
+              
+              <mat-select #minBudget formControlName="c_min_budget">
+                <mat-select-trigger>{{minBudget.value|| "Min Budget"}}</mat-select-trigger>
+                <mat-option>
+                  <lib-mat-select-search
+                    [list]="budgetOptions"
+                    [searchProperties]="['name']"
+                    [clearSearchInput]="true"
+                    (filtered)="budgetList = $event">
+                  </lib-mat-select-search>
+                </mat-option>
+                <mat-option value="">Min Budget</mat-option>
+                <mat-option *ngFor="let budget of budgetList" [value]="budget?.['name']">
+                  {{budget?.['name']}}
+                </mat-option>
+              </mat-select>
+              <!-- <select id="minBudget" formControlName="c_min_budget" class="selectpicker"  data-live-search="true">
                 <option value="">Min Budget</option>
-                <option *ngFor="let budget of budgetOptions" [value]="budget">{{ budget }}</option>
-              </select>
-              <select id="maxBudget" formControlName="c_max_budget">
+                <option *ngFor="let budget of budgetOptions" [value]="budget.name" data-tokens="{{budget.name}}">{{ budget.name }}</option>
+              </select> -->
+            </div>
+            <div class="input-field">
+              <mat-select #maxBudget formControlName="c_max_budget">
+                <mat-select-trigger>{{maxBudget.value|| "Max Budget"}}</mat-select-trigger>
+                <mat-option>
+                  <lib-mat-select-search
+                    [list]="budgetOptions"
+                    [searchProperties]="['name']"
+                    [clearSearchInput]="true"
+                    (filtered)="budgetList = $event">
+                  </lib-mat-select-search>
+                </mat-option>
+                <mat-option value="">Max Budget</mat-option>
+                <mat-option *ngFor="let budget of budgetList" [value]="budget?.['name']">
+                  {{budget?.['name']}}
+                </mat-option>
+              </mat-select>
+              <!-- <select id="maxBudget" formControlName="c_max_budget" class="selectpicker"  data-live-search="true">
                 <option value="">Max Budget</option>
-                <option *ngFor="let budget of budgetOptions" [value]="budget">{{ budget }}</option>
-              </select>
+                <option *ngFor="let budget of budgetOptions" [value]="budget.name" data-tokens="{{budget.name}}">{{ budget.name }}</option>
+              </select> -->
             </div>
             <div class="input-field">
-              <select id="unitType" formControlName="c_unit_type">
+              <mat-select #UnitType formControlName="c_unit_type">
+                <mat-select-trigger>{{UnitType.value|| "Unit Type"}}</mat-select-trigger>
+                <mat-option>
+                  <lib-mat-select-search
+                    [list]="unitTypeOptions"
+                    [searchProperties]="['name']"
+                    [clearSearchInput]="true"
+                    (filtered)="unitTypeList = $event">
+                  </lib-mat-select-search>
+                </mat-option>
+                <mat-option value="">Unit Type</mat-option>
+                <mat-option *ngFor="let unit of unitTypeList" [value]="unit?.['name']">
+                  {{unit?.['name']}}
+                </mat-option>
+              </mat-select>
+              <!-- <select id="unitType" formControlName="c_unit_type" class="selectpicker"  data-live-search="true">
                 <option value="">Unit Type</option>
-                <option *ngFor="let unit of unitTypeOptions" [value]="unit">{{ unit }}</option>
-              </select>
+                <option *ngFor="let unit of unitTypeOptions" [value]="unit.name" data-tokens="{{unit.name}}">{{ unit.name }}</option>
+              </select> -->
             </div>
             <div class="input-field">
-              <select id="propertyStatus" formControlName="c_property_status">
+              <mat-select #propertyStatus formControlName="c_property_status">
+                <mat-select-trigger>{{propertyStatus.value || "Property Status"}}</mat-select-trigger>
+                <mat-option>
+                  <lib-mat-select-search
+                    [list]="propertyStatusOptions"
+                    [searchProperties]="['name']"
+                    [clearSearchInput]="true"
+                    (filtered)="prpertyStatusList = $event">
+                  </lib-mat-select-search>
+                </mat-option>
+                <mat-option value="">Property Status</mat-option>
+                <mat-option *ngFor="let propertyStatus of prpertyStatusList" [value]="propertyStatus?.['name']">
+                  {{propertyStatus?.['name']}}
+                </mat-option>
+              </mat-select>
+              <!-- <select id="propertyStatus" formControlName="c_property_status" class="selectpicker"  data-live-search="true">
+                <input type="text">
                 <option value="">Property Status</option>
-                <option *ngFor="let propertyStatus of propertyStatusOptions" [value]="propertyStatus">{{ propertyStatus }}</option>
-              </select>
+                <option *ngFor="let propertyStatus of propertyStatusOptions" [value]="propertyStatus.name" data-tokens="{{propertyStatus.name}}">{{ propertyStatus.name }}</option>
+              </select> -->
             </div>
+            <ng-container *ngIf="!selectedCustomer">
+              <div class="input-field">
+                <h5>Assign Project</h5>
+                <mat-select #AssignedProject formControlName="c_project_id">
+                  <mat-select-trigger>{{AssignedProject.value|| "Select Project"}}</mat-select-trigger>
+                  <mat-option>
+                    <lib-mat-select-search
+                      [list]="projectList"
+                      [searchProperties]="['project_title']"
+                      [clearSearchInput]="true"
+                      (filtered)="filteredProjects = $event">
+                    </lib-mat-select-search>
+                  </mat-option>
+                  <mat-option value="">Select Project</mat-option>
+                  <mat-option *ngFor="let project of filteredProjects" [value]="project?.['project_title']">
+                    {{project?.['project_title']}}
+                  </mat-option>
+                </mat-select>
+              </div>
+              <div class="input-field">
+                <h5>Select Status</h5>
+                <mat-select #status formControlName="c_status">
+                  <mat-select-trigger>{{status.value|| "Select Status"}}</mat-select-trigger>
+                  <mat-option>
+                    <lib-mat-select-search
+                      [list]="customerStatus"
+                      [searchProperties]="['status_title']"
+                      [clearSearchInput]="true"
+                      (filtered)="filteredStatus = $event">
+                    </lib-mat-select-search>
+                  </mat-option>
+                  <mat-option value="">Select Status</mat-option>
+                  <mat-option *ngFor="let status of filteredStatus" [value]="status?.['status_title']">
+                    {{status?.['status_title']}}
+                  </mat-option>
+                </mat-select>
+              </div>
+              <h5>Schedule Event</h5>
+              <div class="input-field">
+                <div class="activity-card d-flex" style="gap: 5px;">
+                  <div class="follow-up" style="width: 100%;" [class.active]="addCustomerForm.controls['event_type'].value == 'follow_up'" (click)="eventTypeChanged('follow_up')">
+                    <label><i class="icon-phone"></i>Follow Up</label>
+                  </div>
+                  <div class="follow-up" style="width: 100%;" [class.active]="addCustomerForm.controls['event_type'].value == 'meeting'" (click)="eventTypeChanged('meeting')">
+                    <label><i class="icon-users"></i>Meeting</label>
+                  </div>
+                  <div class="follow-up" style="width: 100%;" [class.active]="addCustomerForm.controls['event_type'].value == 'site_visit'" (click)="eventTypeChanged('site_visit')">
+                    <label><i class="icon-calender"></i>Site Visit</label>
+                  </div>
+                </div>
+              </div>
+              <div class="input-field d-flex schedule-date-icon" style="gap: 5px;">
+                <div class="input-field-date">
+                  <i class="icon-calender-outline"></i>
+                  <input type="text" formControlName="event_date" id="datepicker-input" class="datepicker" placeholder="Select Date">
+                </div>
+                <div class="input-field-time">
+                  <i class="icon-watch"></i>
+                  <input type="text" formControlName="event_time" id="timepicker-input" class="timepicker" placeholder="Select Time">
+                </div>
+              </div>
+              <div class="input-field">
+                <h5>Add Note</h5>
+                <textarea id="textarea-normal" formControlName="c_notes" class="materialize-textarea validate"></textarea>
+              </div>
+            </ng-container>
+            
             <div class="input-field input-button" *ngIf="!selectedCustomer">
               <button class="schedule-btn primary-bg" [disabled]="loading" (click)="saveCustomer()">
                 <ion-spinner *ngIf="loading" style="width: 20px;vertical-align: middle;margin-right: 5px;"></ion-spinner>

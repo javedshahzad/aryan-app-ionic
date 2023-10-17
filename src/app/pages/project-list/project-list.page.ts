@@ -30,7 +30,8 @@ export class ProjectListPage implements OnInit {
     unit: "",
     developer: "",
     sort_by: "",
-    filter_by: ""
+    filter_by: "",
+    search:""
   }
 
   constructor(
@@ -113,6 +114,7 @@ export class ProjectListPage implements OnInit {
       developer: this.filters.developer,
       unit: this.filters.unit,
       price: this.filters.sort_by,
+      search : this.filters.search
     }
     if(this.filters.filter_by) {
       let matchIndex = this.filterOptions.findIndex((options: any) => options.name == this.filters.filter_by);
@@ -139,7 +141,12 @@ export class ProjectListPage implements OnInit {
         this.projectListLoading = false;
       });
   }
-
+  handleChange(event) {
+    var str = event.detail.value;
+    console.log(str)
+    this.filters.search = str;
+    this.getProjectList();
+  }
   onIonInfinite(ev:any) {
     setTimeout(() => {
       this.projectList = this.projectList.concat(this.initProjectList.splice(this.projectList.length, 10));

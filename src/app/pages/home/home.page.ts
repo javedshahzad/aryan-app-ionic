@@ -5,6 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { Router, RouterLink } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
 import { CommonService } from 'src/app/services/common.service';
+import { FcmService } from 'src/app/services/fcm.service';
 
 declare var $: any;
 declare var M: any;
@@ -23,11 +24,12 @@ export class HomePage implements OnInit {
   attendance_loading: boolean = false;
   displayProfileCompletion: boolean = false;
   bannerImage: string = "";
-  
+  PUSH_TOKEN="pushToken"
   constructor(
     private router: Router,
     private dataService: DataService,
-    private commonService: CommonService
+    private commonService: CommonService,
+    private fcmSr:FcmService
     ) { }
 
   ngOnInit() {
@@ -39,8 +41,17 @@ export class HomePage implements OnInit {
     this.dataService.validateJWTToken({user_id: this.userData['user_id']}).then((tokenResponse) => {
       const response = JSON.parse(tokenResponse.data);
       if(!response['keep_login']) {
-        localStorage.clear();
-        this.router.navigate(['/login']);
+        // localStorage.clear();
+        // this.router.navigate(['/login']);
+        var loginRequest = JSON.parse(localStorage.getItem('loginRequest'));
+        loginRequest['fcm_token'] = this.fcmSr.PUST_TOKEN_FOR_LOGIN ? this.fcmSr.PUST_TOKEN_FOR_LOGIN :  localStorage.getItem(this.PUSH_TOKEN);;
+        this.dataService.userLogin(loginRequest).then((resp: any) => {
+          const response = JSON.parse(resp.data);
+          localStorage.setItem('aryanUser', JSON.stringify(response.data));
+          this.attendance_loading = true;
+          this.getDashboardData();
+          this.getBannerImage();
+      })
       } else {
         this.attendance_loading = true;
         this.getDashboardData();

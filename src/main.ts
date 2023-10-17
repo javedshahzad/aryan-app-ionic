@@ -11,6 +11,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { HTTP } from '@awesome-cordova-plugins/http/ngx';
 import { httpClientInterceptor } from './app/interceptor/httpClient.interceptor';
 import { CommonModule } from '@angular/common';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
 
 if (environment.production) {
   enableProdMode();
@@ -25,7 +26,8 @@ bootstrapApplication(AppComponent, {
     importProvidersFrom(CommonModule),
     HTTP,
     { provide: HTTP_INTERCEPTORS, useClass: httpClientInterceptor, multi: true },
-  ],
+    provideNoopAnimations()
+],
 });
 
 

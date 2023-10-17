@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Component, NO_ERRORS_SCHEMA, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IonicModule, NavController } from '@ionic/angular';
 import { DataService } from 'src/app/services/data.service';
 import { CommonService } from 'src/app/services/common.service';
 import { ActivatedRoute } from '@angular/router';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSelectSearchModule } from 'mat-select-search';
 
 declare var $: any;
 
@@ -13,20 +15,31 @@ declare var $: any;
   templateUrl: './add-customer.page.html',
   styleUrls: ['./add-customer.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule]
+  imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule,MatSelectModule,MatSelectSearchModule],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ,NO_ERRORS_SCHEMA]
 })
 export class AddCustomerPage implements OnInit {
-
+  selectedVal=""
   addCustomerForm!: FormGroup;
   loading: boolean = false;
 
-  propertyLocationOptions: string[] = [];
-  budgetOptions: string[] = [];
-  unitTypeOptions: string[] = [];
-  propertyStatusOptions: string[] = [];
+  propertyLocationOptions: any = [];
+  budgetOptions: any = [];
+  unitTypeOptions: any = [];
+  propertyStatusOptions: any = [];
 
+  propertyOptsList: Record<string, string>[] = [];
+  budgetList: Record<string, string>[] = [];
+  unitTypeList: Record<string, string>[] = [];
+  prpertyStatusList: Record<string, string>[] = [];
   optionsDatLaoding: boolean = false;
   selectedCustomer: any='';
+  filteredProjects: Record<string, string>[] = [];
+  projectList: any=[];
+  userData: any;
+  customerStatus: any = [];
+  filteredStatus: Record<string, string>[] = [];
+  event_type: string = "follow_up";
   constructor(
     private commonService: CommonService,
     public dataService: DataService,
@@ -39,11 +52,13 @@ export class AddCustomerPage implements OnInit {
         console.log(this.selectedCustomer)
       })
      }
-
+  
   ngOnInit() {
+    this.userData = this.dataService.getUserData();
     this.loading = false;
     this.getFieldOptionsData();
-
+    this.getCustomerStatusdata();
+    this.getProjectList();
     this.addCustomerForm = this.fb.group({
       c_name: ['', ],
       c_email: ['', ],
@@ -52,7 +67,13 @@ export class AddCustomerPage implements OnInit {
       c_min_budget: ['', ],
       c_max_budget: ['', ],
       c_unit_type: ['', ],
-      c_property_status: ['', ]
+      c_property_status: ['', ],
+      c_project_id: ['', ],
+      c_status: ['', ],
+      event_type:["follow_up"],
+      event_date:[""],
+      event_time:[""],
+      c_notes:[""]
     });
     if(this.selectedCustomer){
       this.addCustomerForm.controls['c_name'].setValue(this.selectedCustomer?.req_name);
@@ -68,7 +89,58 @@ export class AddCustomerPage implements OnInit {
       }
     }
   }
+  eventTypeChanged(event_type: string): void {
+    this.event_type = event_type;
+    this.addCustomerForm.controls['event_type'].setValue(event_type);
+    this.addCustomerForm.controls['event_type'].updateValueAndValidity();
+  }
+  getProjectList(): void {
+    let data: any = {
+      user_id: this.userData.user_id,
+      login_type: String(this.userData.login_type),
+    }
+    console.log(data)
+    this.dataService.getProjectList(data)
+      .then((resp: any) => {
+        console.log("project list", resp)
+        const response = JSON.parse(resp.data);
+        this.projectList = JSON.parse(JSON.stringify(response.data));
+        this.filteredProjects = this.projectList;
+      }).catch((err) => {
+        console.log(err)
+      });
+  }
+  ngAfterViewInit() {
+    $(".datepicker").datepicker({
+      onSelect: (date: any) => {
+        if (date != "") {
+          let date1 = new Date(date);
+          this.addCustomerForm.controls['event_date'].setValue(date1.getFullYear() + '-' + String((date1.getMonth() + 1)).padStart(2, '0') + '-' + String(date1.getDate()).padStart(2, '0'));
+          this.addCustomerForm.controls['event_date'].updateValueAndValidity();
+        }
+      }
+    });
+    $(".timepicker").timepicker({
+      onSelect: (hour: any, minutes: any) => {
+        if (hour && minutes) {
+          this.addCustomerForm.controls['event_time'].setValue(String(hour).padStart(2, '0') + ':' + String(minutes).padStart(2, '0'));
+          this.addCustomerForm.controls['event_time'].updateValueAndValidity();
+        }
+      }
+    });
+  }
+  getCustomerStatusdata(): void {
 
+    this.dataService.getCustomerStatus({})
+      .then((resp: any) => {
+        let customerStatusData = JSON.parse(resp.data);
+        console.log(customerStatusData)
+        this.customerStatus = customerStatusData?.data;
+        this.customerStatus = this.customerStatus.filter((a:any)=> a.status_title != "Busy");
+        console.log(this.customerStatus);
+        this.filteredStatus = this.customerStatus;
+      })
+  }
   private getFieldOptionsData(): void {
 
     this.optionsDatLaoding = true;
@@ -82,15 +154,32 @@ export class AddCustomerPage implements OnInit {
     .then((resp: any) => {
       console.log(resp)
 
-      this.propertyLocationOptions = JSON.parse(resp[0].data)?.data || [];
-      this.budgetOptions = JSON.parse(resp[1].data)?.data || [];
-      this.unitTypeOptions = JSON.parse(resp[2].data)?.data || [];
-      this.propertyStatusOptions = JSON.parse(resp[3].data)?.data || [];
-
+     var property = JSON.parse(resp[0].data)?.data || [];
+      var budget = JSON.parse(resp[1].data)?.data || [];
+     var unitTypes = JSON.parse(resp[2].data)?.data || [];
+     var propertyStatus = JSON.parse(resp[3].data)?.data || [];
+      property.forEach(element => {
+        this.propertyLocationOptions.push({name:element})
+      });
+      budget.forEach(element => {
+        this.budgetOptions.push({name:element})
+      });
+      unitTypes.forEach(element => {
+        this.unitTypeOptions.push({name:element})
+      });
+      propertyStatus.forEach(element => {
+        this.propertyStatusOptions.push({name:element})
+      });
+      this.propertyOptsList =  this.propertyLocationOptions;
+      this.budgetList =  this.budgetOptions;
+      this.unitTypeList =  this.unitTypeOptions;
+      this.prpertyStatusList =  this.propertyStatusOptions;
       console.log(this.propertyLocationOptions, this.budgetOptions, this.unitTypeOptions, this.propertyStatusOptions)
-      setTimeout(() => {
-        $("select").formSelect();
-      }, 1000);
+   
+      // setTimeout(() => {
+      //   $("select").formSelect();
+     
+      // }, 1000);
 
       this.optionsDatLaoding = false;
     }).catch((err: any) => {
@@ -104,17 +193,23 @@ export class AddCustomerPage implements OnInit {
 
     if (this.addCustomerForm.valid) {
       this.loading = true;
-
+      let statusIndex = this.customerStatus?.findIndex((stat: any) => stat.status_title == this.addCustomerForm.value.c_status);
+      let projectIndex = this.projectList?.findIndex((stat: any) => stat.project_title == this.addCustomerForm.value.c_project_id);
       let apiData = this.addCustomerForm.value;
+      apiData["c_status"] =  this.customerStatus[statusIndex].status_id;
+      apiData["c_project_id"] = this.projectList[projectIndex].project_id;
       let userData = this.dataService.getUserData()
       apiData["user_id"] = userData['id'];
       apiData["login_type"] = userData['login_type'];
       apiData["customer_name"] = this.addCustomerForm.value.c_name;
+      apiData["c_phone"] ="+91" + this.addCustomerForm.value.c_phone;
+      console.log(apiData)
       this.dataService.addCustomer(apiData)
         .then((resp: any) => {
           console.log("resp", resp)
           this.addCustomerForm.reset();
           const response = JSON.parse(resp.data);
+          console.log(response)
           if (response.status_code == 201) {
             this.commonService.presentToast('warning', response.message);
           } else {

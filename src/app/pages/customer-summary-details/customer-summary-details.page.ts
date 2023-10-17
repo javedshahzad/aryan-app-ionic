@@ -21,6 +21,7 @@ export class CustomerSummaryDetailsPage implements OnInit {
   leadsDataLoading: boolean = false;
   SelectedStatus: any;
   customerStatus: any=[];
+  filterDate:any="1";
   constructor(
     private dataService: DataService,
     private activateRouter: ActivatedRoute,
@@ -44,7 +45,8 @@ export class CustomerSummaryDetailsPage implements OnInit {
     this.leadsDataLoading = true;
     let data = {
       user_id: this.userData.id,
-      status: status
+      status: status,
+      from:this.filterDate,
     }
     console.log(data)
     this.dataService.getLeadsList(data)
@@ -79,6 +81,11 @@ export class CustomerSummaryDetailsPage implements OnInit {
     this.leadsListing= []
     console.log(event.detail.value);
     this.SelectedStatus = event.detail.value;
+    this.getLeadListByStatus(this.SelectedStatus);
+  }
+  ChangeFilter(event:any){
+    console.log(event.detail.value);
+    this.filterDate = event.detail.value;
     this.getLeadListByStatus(this.SelectedStatus);
   }
   gotoLeadDetailsEdit(customer){

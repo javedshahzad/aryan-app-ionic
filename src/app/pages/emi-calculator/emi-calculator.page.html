@@ -1,0 +1,26 @@
+
+
+<ion-content [fullscreen]="true">
+<div class="container">
+  <br>
+  <h4 (click)="gotoBack()"><ion-icon name="arrow-back-outline" class="icon-style"></ion-icon>&nbsp; EMI Calculator</h4>
+  <br>
+  <div class="Loan_calcualtor">
+    <h1>EMI Calculator </h1>
+    <p>Loan Amount:
+        <input type="number" id="amount" placeholder="Enter amount.." [(ngModel)]="amount">
+    </p>
+  
+    <p>Rate (Interest): %
+       <input step=".1" id="rate" placeholder="Enter rate.." type="number" [(ngModel)]="rate">
+    </p>
+    <p>Months (Time):
+       <input type="number" id="time" placeholder="Enter time.." [(ngModel)]="time">
+    </p>
+      <ion-button expand="block" (click)="calculate()">Calculate</ion-button>
+      
+    <p>Total EMI: {{ output | currency:'INR' }}
+    </p>
+ </div>
+</div>
+</ion-content>

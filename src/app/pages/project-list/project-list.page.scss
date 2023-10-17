@@ -1,6 +1,10 @@
 .green-text{
     color: var(--primary-color);
+    margin: 3px auto;
 }
 .bg-list{
     background: #f2f2f2;
+}
+ion-content{
+    --background: #efefef;
 }

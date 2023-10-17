@@ -29,6 +29,6 @@ export class WelcomePage implements OnInit {
   }
 
   ngAfterViewInit() {
-    $("swiper-container").css("height", $(window).height());
+    $("swiper-container").css("height", "100%");
   }
 }

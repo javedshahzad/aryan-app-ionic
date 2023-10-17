@@ -1,17 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Component, NO_ERRORS_SCHEMA, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, NavController } from '@ionic/angular';
 import { CommonService } from 'src/app/services/common.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSelectSearchModule } from 'mat-select-search';
 
 @Component({
   selector: 'app-edit-customer-details',
   templateUrl: './edit-customer-details.page.html',
   styleUrls: ['./edit-customer-details.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule]
+  imports: [IonicModule, CommonModule, FormsModule,MatSelectModule,MatSelectSearchModule],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ,NO_ERRORS_SCHEMA]
 })
 export class EditCustomerDetailsPage implements OnInit {
   selectedCustomer: any;
@@ -20,14 +23,18 @@ export class EditCustomerDetailsPage implements OnInit {
   projectList: any=[];
   loading: boolean=false;
   note:any;
-  assignedProject:any;
-  statusChange:any;
-  status: any;
+  assignedProject:any="";
+  statusChange:any="";
   lead_id: any;
   response: any;
   isModalOpen = false;
   AllNotes: any=[];
   addnotes:boolean=false;
+  filteredProjects: Record<string, string>[] = [];
+  filteredStatus: Record<string, string>[] = [];
+  isAddedNote:boolean= false;
+  statusType: any="";
+  project_type: any;
   constructor(
      private commonService: CommonService,
     public dataService: DataService,
@@ -37,13 +44,14 @@ export class EditCustomerDetailsPage implements OnInit {
     ) {
       this.activeRoute.queryParams.subscribe((response:any)=>{
         this.response = response.customer;
-        console.log(this.selectedCustomer)
+       
    
       })
      }
 
   ngOnInit() {
-    this.selectedCustomer=this.response
+    this.selectedCustomer=this.response;
+    console.log(this.selectedCustomer)
     this.userData = this.dataService.getUserData();
     console.log(this.userData)
     this.getCustomerStatusdata();
@@ -58,11 +66,13 @@ export class EditCustomerDetailsPage implements OnInit {
         this.customerStatus = customerStatusData?.data;
         this.customerStatus = this.customerStatus.filter((a:any)=> a.status_title != "Busy");
         console.log(this.customerStatus);
-        this.statusChange = this.selectedCustomer.req_call_status;
-        this.assignedProject= this.selectedCustomer.rep_product_id;
+        this.filteredStatus = this.customerStatus;
+       
         this.lead_id = this.selectedCustomer.req_id;
-        let statusIndex = this.customerStatus?.findIndex((stat: any) => stat.status_id == this.selectedCustomer.req_call_status)
-        this.status =  this.customerStatus[statusIndex].status_title;
+        let statusIndex = this.customerStatus?.findIndex((stat: any) => stat.status_id === this.selectedCustomer.req_call_status);
+        this.statusType = this.customerStatus[statusIndex].status_title;
+        console.log(this.statusType)
+        this.statusChange =this.statusType;
       })
   }
   getProjectList(): void {
@@ -76,7 +86,11 @@ export class EditCustomerDetailsPage implements OnInit {
         console.log("project list", resp)
         const response = JSON.parse(resp.data);
         this.projectList = JSON.parse(JSON.stringify(response.data));
-        
+        console.log(this.projectList)
+        let projIndex = this.projectList?.findIndex((stat: any) => stat.project_id === this.selectedCustomer.rep_product_id);
+        this.assignedProject = this.projectList[projIndex].project_title;
+        this.project_type = this.projectList[projIndex].project_type;
+        this.filteredProjects = this.projectList;
       }).catch((err) => {
         console.log(err)
       });
@@ -93,14 +107,18 @@ export class EditCustomerDetailsPage implements OnInit {
     this._nav.navigateForward("/add-customer",{queryParams:{customer:customer}})
   }
   updatelead(): void {
+    if(this.isAddedNote){
       this.loading = true;
       let apiData={};
       this. userData = this.dataService.getUserData();
+      let statusIndex = this.customerStatus?.findIndex((stat: any) => stat.status_title == this.statusChange);
+      let projectIndex = this.projectList?.findIndex((stat: any) => stat.project_title == this.assignedProject);
+      var statusID =this.customerStatus[statusIndex].status_id;
       apiData["user_id"] = this.userData.id;
       apiData["login_type"] = String(this.userData.login_type);
       apiData["lead_id"] = this.lead_id;
-      apiData["c_lead_status"] = this.statusChange;
-      apiData["c_project_id"] = this.assignedProject;
+      apiData["c_lead_status"] = statusID;
+      apiData["c_project_id"] = this.projectList[projectIndex].project_id;
       console.log(apiData)
       this.dataService.updateLead(apiData)
         .then((resp: any) => {
@@ -110,13 +128,17 @@ export class EditCustomerDetailsPage implements OnInit {
             this.commonService.presentToast('warning', response.message);
           } else { 
             this.commonService.presentToast('success', response.message); 
-            this.router.navigate(["customer-summary-details", this.statusChange]);
+            this.router.navigate(["customer-summary-details", statusID]);
           }
           this.loading = false;
         }).catch((err) => {
           console.log("err", err)
           this.loading = false;
         });
+    }else{
+      this.commonService.presentToast('warning', "Please add note to update Lead!");
+    }
+   
   }
   Addnewnote(): void {
     this.addnotes = true;
@@ -135,7 +157,7 @@ export class EditCustomerDetailsPage implements OnInit {
           this.commonService.presentToast('warning', response.message);
         } else { 
           this.commonService.presentToast('success', response.message); 
-          this.note="";
+          this.isAddedNote = true
         }
         this.addnotes = false;
       }).catch((err) => {

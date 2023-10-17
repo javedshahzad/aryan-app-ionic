@@ -1,24 +1,38 @@
+
 <ion-content [fullscreen]="true">
   <section class="edit-customer-page">
     <div class="container">
       <div class="row notification-list">
         <div class="card-panel z-depth-1 profile-col-box pd-15">
           <div class="row bot-0">
-            <h4>{{selectedCustomer?.req_name || "Anuj"}}</h4>
+            <h4 class="h-5">{{selectedCustomer?.req_name || "Anuj"}}</h4>
             <span class="">{{selectedCustomer?.rep_min_budget || "30 Lac"}} to {{selectedCustomer?.rep_max_budget || "40 Lac"}} - {{selectedCustomer?.rep_product_location || "Haryana"}}</span>
-            <h5>Email: {{selectedCustomer?.req_email || "abc@gmail.com"}}</h5>
-            <h5>Type: {{status}}</h5>
-            <h5>Phone : {{selectedCustomer?.req_phone}}</h5>
-            <h5>Property Status: {{selectedCustomer?.rep_property_status || "Under construction"}}</h5>
-            <h5>Unit Type : {{selectedCustomer?.rep_unit_type || "Apartment"}}</h5>
-            <h5>Location: {{selectedCustomer?.rep_product_location || "Delhi"}}</h5>
+            <h5 class="h-5">Email: {{selectedCustomer?.req_email || "abc@gmail.com"}}</h5>
+            <h5 class="h-5">Status Type: {{statusType}}</h5>
+            <h5 class="h-5">Date of Assigned: {{selectedCustomer?.req_date}}</h5>
+            <h5 class="h-5">Phone : {{selectedCustomer?.req_phone}}</h5>
+            <h5 class="h-5">Project Name: {{assignedProject || "New Project"}}</h5>
+            <h5 class="h-5">Property Status: {{selectedCustomer?.rep_property_status || "Under construction"}}</h5>
+            <h5 class="h-5">Unit Type : {{selectedCustomer?.rep_unit_type || "Apartment"}}</h5>
+            <h5 class="h-5">Location: {{selectedCustomer?.rep_product_location || "Delhi"}}</h5>
+            <h5 class="h-5">Type: {{project_type || "2BHK"}}</h5>
             <div class="activity-card d-flex">
-              <a class="follow-up" href="tel:+91{{selectedCustomer?.req_phone}}">
+              <a *ngIf="selectedCustomer.req_phone.slice(0,3) !== '+91'" class="follow-up" href="tel:+91{{selectedCustomer?.req_phone}}">
                 <label>
                   <i class="icon-phone"></i>
                 </label>
               </a>
-              <a class="follow-up" href="https://wa.me/+91{{selectedCustomer?.req_phone}}?text=Hello">
+              <a *ngIf="selectedCustomer.req_phone.slice(0,3) === '+91'" class="follow-up" href="tel:{{selectedCustomer?.req_phone}}">
+                <label>
+                  <i class="icon-phone"></i>
+                </label>
+              </a>
+              <a *ngIf="selectedCustomer.req_phone.slice(0,3) !== '+91'" class="follow-up" href="https://wa.me/+91{{selectedCustomer?.req_phone}}?text=Hello">
+                <label>
+                  <i class="mdi mdi-whatsapp"></i>
+                </label>
+              </a>
+              <a *ngIf="selectedCustomer.req_phone.slice(0,3) === '+91'" class="follow-up" href="https://wa.me/{{selectedCustomer?.req_phone}}?text=Hello">
                 <label>
                   <i class="mdi mdi-whatsapp"></i>
                 </label>
@@ -49,12 +63,24 @@
       <div class="row notification-list">
         <div class="card-panel z-depth-1 profile-col-box pd-15">
           <div class="row bot-0">
-            <h5>Status : {{status}}</h5>
+            <h5>Status : {{statusType}}</h5>
             <div class="meetings">
               <h5>Change Status</h5>
-              <ion-select class="itemclass" label="Status" id="status" (ionChange)="changeStatus()" [(ngModel)]="statusChange">
-                <ion-select-option *ngFor="let status of customerStatus" [value]="status.status_id">{{ status?.status_title  || "ddd"}}</ion-select-option>
-              </ion-select>
+              <mat-select #SelectedStatus [(ngModel)]="statusChange">
+                <mat-select-trigger>{{SelectedStatus.value|| "Select Status"}}</mat-select-trigger>
+                <mat-option>
+                  <lib-mat-select-search
+                    [list]="customerStatus"
+                    [searchProperties]="['status_title']"
+                    [clearSearchInput]="true"
+                    (filtered)="filteredStatus = $event">
+                  </lib-mat-select-search>
+                </mat-option>
+                <mat-option value="">Select Staus</mat-option>
+                <mat-option *ngFor="let status of filteredStatus" [value]="status?.['status_title']">
+                  {{status?.['status_title']}}
+                </mat-option>
+              </mat-select>
             </div>
           </div>
         </div>
@@ -63,10 +89,22 @@
         <div class="card-panel z-depth-1 profile-col-box pd-15">
           <div class="row bot-0">
             <div class="meetings">
-              <h5>Assigned Project</h5>
-              <ion-select class="itemclass" label="Assign Project" id="status" (ionChange)="changeStatus()" [(ngModel)]="assignedProject">
-                <ion-select-option *ngFor="let project of projectList" [value]="project.project_id">{{ project?.project_title  || "ddd"}}</ion-select-option>
-              </ion-select>
+              <h5>Assign Project</h5>
+              <mat-select #AssignedProject [(ngModel)]="assignedProject">
+                <mat-select-trigger>{{AssignedProject.value|| "Select Project"}}</mat-select-trigger>
+                <mat-option>
+                  <lib-mat-select-search
+                    [list]="projectList"
+                    [searchProperties]="['project_title']"
+                    [clearSearchInput]="true"
+                    (filtered)="filteredProjects = $event">
+                  </lib-mat-select-search>
+                </mat-option>
+                <mat-option value="">Select Project</mat-option>
+                <mat-option *ngFor="let project of filteredProjects" [value]="project?.['project_title']">
+                  {{project?.['project_title']}}
+                </mat-option>
+              </mat-select>
             </div>
           </div>
         </div>

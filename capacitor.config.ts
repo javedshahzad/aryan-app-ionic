@@ -7,15 +7,19 @@ const config: CapacitorConfig = {
   server: {
     androidScheme: 'https'
   },
-  "plugins": {
-		"SplashScreen": {
-		  "launchAutoHide": false,
-		  "androidScaleType": "CENTER_CROP",
-		  "showSpinner": true,
-		  "androidSpinnerStyle": "large",
-		  "iosSpinnerStyle": "small"
-		}
-	  }
+  plugins: {
+		SplashScreen: {
+		  launchAutoHide: false,
+		  androidScaleType: "CENTER_CROP",
+		  showSpinner: true,
+		  androidSpinnerStyle: "large",
+		  iosSpinnerStyle: "small"
+		},
+		PushNotifications: {
+			presentationOptions: ["badge", "sound", "alert"],
+		  },
+	  },
+	  
 };
 
 export default config;

@@ -5,6 +5,25 @@
       <ion-grid>
         <ion-row>
           <ion-col>
+            <p class="heading">Search by Last</p>
+            <ion-segment mode="ios" [scrollable]="true" [value]="filterDate" [(ngModel)]="filterDate" (ionChange)="ChangeFilter($event)">
+              <ion-segment-button value="1">
+                <h5 class="heading">1 Months</h5>
+              </ion-segment-button>
+              <ion-segment-button value="3">
+                <h5 class="heading">3 Months</h5>
+              </ion-segment-button>
+              <ion-segment-button value="6">
+                <h5 class="heading">6 Months</h5>
+              </ion-segment-button>
+              <ion-segment-button value="12">
+                <h5 class="heading">12 Months</h5>
+              </ion-segment-button>
+            </ion-segment>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
             <ion-segment mode="ios" [scrollable]="true" [value]="SelectedStatus" [(ngModel)]="SelectedStatus" (ionChange)="changeSegment($event)">
               <ion-segment-button value="0">
                 <h5 class="heading">All</h5>
@@ -30,15 +49,23 @@
                 {{ event.event_type | titlecase }}
                 <span><i class="mdi mdi-circle" style="color: var(--primary-color);font-size: 8px;margin-right: 3px;vertical-align: middle;"></i>{{event.event_date}}</span>
               </p>
-              <ion-button (click)="gotoLeadDetailsEdit(leadDetails)" expand="block">View Details</ion-button>
+              <div class="ion-text-center">
+                <ion-button (click)="gotoLeadDetailsEdit(leadDetails)" shape="round">View Details</ion-button>
+              </div>
               <div class="activity-card d-flex">
                 <div class="follow-up" (click)="gotoScheduleEvent(leadDetails)">
                   <label><i class="icon-calender"></i></label>
                 </div>
-                <a class="follow-up" href="tel:+91{{leadDetails.req_phone}}">
+                <a *ngIf="leadDetails.req_phone?.slice(0,3) !== '+91'" class="follow-up" href="tel:+91{{leadDetails.req_phone}}">
                   <label><i class="icon-phone"></i></label>
                 </a>
-                <a class="follow-up" href="https://wa.me/+91{{leadDetails.req_phone}}?text=Hello">
+                <a *ngIf="leadDetails.req_phone?.slice(0,3) === '+91'" class="follow-up" href="tel:{{leadDetails.req_phone}}">
+                  <label><i class="icon-phone"></i></label>
+                </a>
+                <a *ngIf="leadDetails.req_phone?.slice(0,3) !== '+91'" class="follow-up" href="https://wa.me/+91{{leadDetails.req_phone}}?text=Hello">
+                  <label><i class="mdi mdi-whatsapp"></i></label>
+                </a>
+                <a *ngIf="leadDetails.req_phone?.slice(0,3) === '+91'" class="follow-up" href="https://wa.me/{{leadDetails.req_phone}}?text=Hello">
                   <label><i class="mdi mdi-whatsapp"></i></label>
                 </a>
               </div>
