@@ -18,7 +18,7 @@
             </div>
             <div class="input-field d-flex">
               <div class="input-code">
-                <input id="pin" type="tel" class="pin-code" placeholder="+91" disabled>
+                <input id="pin" type="tel" class="pin-code" placeholder="+91" formControlName="c_country_code">
               </div>
               <div class="input-mobile-no">
                 <input id="phone" formControlName="c_phone" type="tel" class="validate" placeholder="Phone Number*">
@@ -28,7 +28,7 @@
               <h5>Project location preferences (Optional)</h5>
               <div class="input-search-field">
 
-                <mat-select #propertOpts formControlName="c_project_location">
+                <mat-select #propertOpts formControlName="c_project_location" >
                   <mat-select-trigger>{{propertOpts.value|| "Search For Locations"}}</mat-select-trigger>
                   <mat-option>
                     <lib-mat-select-search
@@ -52,7 +52,7 @@
               </div>
             </div>
             <div class="input-field">
-              
+              <h5>Min Budget</h5>
               <mat-select #minBudget formControlName="c_min_budget">
                 <mat-select-trigger>{{minBudget.value|| "Min Budget"}}</mat-select-trigger>
                 <mat-option>
@@ -74,6 +74,7 @@
               </select> -->
             </div>
             <div class="input-field">
+              <h5>Max Budget</h5>
               <mat-select #maxBudget formControlName="c_max_budget">
                 <mat-select-trigger>{{maxBudget.value|| "Max Budget"}}</mat-select-trigger>
                 <mat-option>
@@ -95,27 +96,43 @@
               </select> -->
             </div>
             <div class="input-field">
-              <mat-select #UnitType formControlName="c_unit_type">
+              <h5>Unit Type</h5>
+              <mat-select #UnitType formControlName="c_unit_type" (selectionChange)="onSelectCategory($event)">
                 <mat-select-trigger>{{UnitType.value|| "Unit Type"}}</mat-select-trigger>
                 <mat-option>
                   <lib-mat-select-search
-                    [list]="unitTypeOptions"
-                    [searchProperties]="['name']"
+                    [list]="CategoriesListOptions"
+                    [searchProperties]="['category']"
                     [clearSearchInput]="true"
-                    (filtered)="unitTypeList = $event">
+                    (filtered)="CategoriesList = $event">
                   </lib-mat-select-search>
                 </mat-option>
                 <mat-option value="">Unit Type</mat-option>
-                <mat-option *ngFor="let unit of unitTypeList" [value]="unit?.['name']">
-                  {{unit?.['name']}}
+                <mat-option *ngFor="let unit of CategoriesList" [value]="unit?.['category']">
+                  {{unit?.['category']}}
                 </mat-option>
               </mat-select>
-              <!-- <select id="unitType" formControlName="c_unit_type" class="selectpicker"  data-live-search="true">
-                <option value="">Unit Type</option>
-                <option *ngFor="let unit of unitTypeOptions" [value]="unit.name" data-tokens="{{unit.name}}">{{ unit.name }}</option>
-              </select> -->
             </div>
             <div class="input-field">
+              <h5>Unit Sub-Type</h5>
+              <mat-select #UnitSubType formControlName="c_unit_sub_type">
+                <mat-select-trigger>{{UnitSubType.value|| "Unit Sub-Type"}}</mat-select-trigger>
+                <mat-option>
+                  <lib-mat-select-search
+                    [list]="CategoriesTypesListOptions"
+                    [searchProperties]="['project_type']"
+                    [clearSearchInput]="true"
+                    (filtered)="CategoriesTypesList = $event">
+                  </lib-mat-select-search>
+                </mat-option>
+                <mat-option value="">Unit Sub-Type</mat-option>
+                <mat-option *ngFor="let unit of CategoriesTypesList" [value]="unit?.['project_type']">
+                  {{unit?.['project_type']}}
+                </mat-option>
+              </mat-select>
+            </div>
+            <div class="input-field">
+              <h5>Property Status</h5>
               <mat-select #propertyStatus formControlName="c_property_status">
                 <mat-select-trigger>{{propertyStatus.value || "Property Status"}}</mat-select-trigger>
                 <mat-option>

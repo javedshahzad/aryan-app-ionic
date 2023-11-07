@@ -41,9 +41,9 @@ export class HomePage implements OnInit {
     this.dataService.validateJWTToken({user_id: this.userData['user_id']}).then((tokenResponse) => {
       const response = JSON.parse(tokenResponse.data);
       if(!response['keep_login']) {
-        // localStorage.clear();
-        // this.router.navigate(['/login']);
-        var loginRequest = JSON.parse(localStorage.getItem('loginRequest'));
+       
+        var loginRequest = JSON.parse(localStorage.getItem('loginRequest')) ? JSON.parse(localStorage.getItem('loginRequest')) : "";
+       if(loginRequest){
         loginRequest['fcm_token'] = this.fcmSr.PUST_TOKEN_FOR_LOGIN ? this.fcmSr.PUST_TOKEN_FOR_LOGIN :  localStorage.getItem(this.PUSH_TOKEN);;
         this.dataService.userLogin(loginRequest).then((resp: any) => {
           const response = JSON.parse(resp.data);
@@ -52,6 +52,10 @@ export class HomePage implements OnInit {
           this.getDashboardData();
           this.getBannerImage();
       })
+       }else{
+        localStorage.clear();
+        this.router.navigate(['/login']);
+       }
       } else {
         this.attendance_loading = true;
         this.getDashboardData();
@@ -143,5 +147,8 @@ export class HomePage implements OnInit {
       });
 
     });
+  }
+  refresh(){
+    window.location.reload();
   }
 }

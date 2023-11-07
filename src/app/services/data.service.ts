@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { Platform } from '@ionic/angular';
+import { LoadingController, Platform } from '@ionic/angular';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { HTTP } from '@awesome-cordova-plugins/http/ngx';
@@ -11,7 +11,10 @@ import { HTTP } from '@awesome-cordova-plugins/http/ngx';
 export class DataService {
   url = environment.baseUrl;
 
-  constructor(private http: HttpClient, private platform: Platform, private nativeHttp: HTTP) {
+  constructor(private http: HttpClient, 
+    private platform: Platform,
+    private loadingController : LoadingController,
+     private nativeHttp: HTTP) {
     this.platform.ready().then(() => {
       this.nativeHttp.setDataSerializer('json');
     });
@@ -244,9 +247,34 @@ export class DataService {
   getProjectFurnishingList() {
     return this.nativeHttp.get(this.url + 'get-project-furnishing', {}, {});
   }
-
+  Getprojectcategory(){
+    return this.nativeHttp.get(this.url + 'get-project-category', {}, {});
+  }
+  Getprojecttype(id){
+    return this.nativeHttp.get(this.url + `get-project-type?category_id=${id}`, {}, {});
+  }
   getStaticContent(type: string) {
     return this.nativeHttp.get(this.url + type, {}, {});
+  }
+  async presentLoadingWithDuration(message = "") {
+    return await this.loadingController
+      .create({
+        duration: 8000,
+        message:message ? message : "Please wait...",
+      })
+      .then((a) => {
+        a.present().then(() => {
+        });
+      });
+  }
+  async simpleLoader() {
+    const loading = await this.loadingController.create({
+      message: 'Please wait...'
+    });
+    loading.present();
+  }
+  async loaderDismiss() {
+    return await this.loadingController.dismiss();
   }
 
 }

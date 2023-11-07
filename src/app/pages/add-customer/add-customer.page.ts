@@ -40,6 +40,10 @@ export class AddCustomerPage implements OnInit {
   customerStatus: any = [];
   filteredStatus: Record<string, string>[] = [];
   event_type: string = "follow_up";
+  CategoriesList: any=[];
+  CategoriesTypesList: any=[];
+  CategoriesListOptions: any = [];
+  CategoriesTypesListOptions: any=[];
   constructor(
     private commonService: CommonService,
     public dataService: DataService,
@@ -58,34 +62,67 @@ export class AddCustomerPage implements OnInit {
     this.loading = false;
     this.getFieldOptionsData();
     this.getCustomerStatusdata();
-    this.getProjectList();
-    this.addCustomerForm = this.fb.group({
-      c_name: ['', ],
-      c_email: ['', ],
-      c_phone: ['', ],
-      c_project_location: ['', []],
-      c_min_budget: ['', ],
-      c_max_budget: ['', ],
-      c_unit_type: ['', ],
-      c_property_status: ['', ],
-      c_project_id: ['', ],
-      c_status: ['', ],
-      event_type:["follow_up"],
-      event_date:[""],
-      event_time:[""],
-      c_notes:[""]
-    });
+    this.getCategories();
+    this.addCustomerForm = this.initForm();
+ 
+  }
+  initForm(){
+    if(!this.selectedCustomer){
+      return this.fb.group({
+        c_name: ['', [Validators.required]],
+        c_email: ['', [Validators.required]],
+        c_phone: ['', ],
+        c_project_location: ['', []],
+        c_min_budget: ['', ],
+        c_max_budget: ['', ],
+        c_unit_type: ['', ],
+        c_property_status: ['', ],
+        c_project_id: ['', [Validators.required]],
+        c_status: ['', [Validators.required]],
+        c_country_code:['+91',],
+        event_type:["follow_up"],
+        event_date:[""],
+        event_time:[""],
+        c_unit_sub_type:[""],
+        c_notes:["",[Validators.required]]
+      });
+    }else{
+      return this.fb.group({
+        c_name: ['', ],
+        c_email: ['', ],
+        c_phone: ['', ],
+        c_project_location: ['', []],
+        c_min_budget: ['', ],
+        c_max_budget: ['', ],
+        c_unit_type: ['', ],
+        c_property_status: ['', ],
+        c_project_id: ['', []],
+        c_status: ['', []],
+        c_country_code:['+91',],
+        event_type:[""],
+        event_date:[""],
+        event_time:[""],
+        c_unit_sub_type:[""],
+        c_notes:["",[]]
+      });
+    }
+  }
+  ionViewWillEnter(){
     if(this.selectedCustomer){
       this.addCustomerForm.controls['c_name'].setValue(this.selectedCustomer?.req_name);
       this.addCustomerForm.controls['c_email'].setValue(this.selectedCustomer?.req_email);
-      this.addCustomerForm.controls['c_phone'].setValue(this.selectedCustomer?.req_phone);
       this.addCustomerForm.controls['c_project_location'].setValue(this.selectedCustomer?.rep_product_location);
       this.addCustomerForm.controls['c_min_budget'].setValue(this.selectedCustomer?.rep_min_budget);
       this.addCustomerForm.controls['c_max_budget'].setValue(this.selectedCustomer?.rep_max_budget);
       this.addCustomerForm.controls['c_unit_type'].setValue(this.selectedCustomer?.rep_unit_type);
       this.addCustomerForm.controls['c_property_status'].setValue(this.selectedCustomer?.rep_property_status);
-      if(this.selectedCustomer.req_phone){
+      this.addCustomerForm.controls['c_unit_sub_type'].setValue(this.selectedCustomer?.rep_unit_sub_type);
+      
+      if(this.selectedCustomer.req_phone || this.selectedCustomer.req_phone.slice(0,3) === "+91"){
+        this.addCustomerForm.controls['c_phone'].setValue(this.selectedCustomer?.req_phone.slice(3));
+        this.addCustomerForm.controls['c_country_code'].setValue(this.selectedCustomer?.req_phone.slice(0,3));
         this.addCustomerForm.controls['c_phone'].disable();
+        this.addCustomerForm.controls['c_country_code'].disable();
       }
     }
   }
@@ -94,17 +131,49 @@ export class AddCustomerPage implements OnInit {
     this.addCustomerForm.controls['event_type'].setValue(event_type);
     this.addCustomerForm.controls['event_type'].updateValueAndValidity();
   }
-  getProjectList(): void {
+  getCategories(){
+    this.dataService.Getprojectcategory().then((resp: any) => {
+      console.log("getCategories list", resp);
+      const response = JSON.parse(resp.data);
+      this.CategoriesList = response.data;
+      this.CategoriesListOptions = response.data;
+      console.log("getCategories list",  this.CategoriesList)
+    }).catch((err) => {
+      console.log(err)
+    });
+  }
+  onSelectCategory(event){
+    let statusIndex = this.CategoriesList?.findIndex((stat: any) => stat.category == event.value)
+    if (statusIndex !== -1) {
+      this.getCategoriesTypes(this.CategoriesList[statusIndex].category_id);
+      this.getProjectList(this.CategoriesList[statusIndex].category)
+    }
+  }
+  getCategoriesTypes(id){
+    this.dataService.Getprojecttype(id).then((resp: any) => {
+      console.log("getCategories types list", resp)
+      const response = JSON.parse(resp.data);
+      this.CategoriesTypesList = response.data;
+      this.CategoriesTypesListOptions = response.data;
+      console.log("getCategories types list",this.CategoriesTypesList)
+    }).catch((err) => {
+      console.log(err)
+    });
+  }
+  getProjectList(id): void {
     let data: any = {
-      user_id: this.userData.user_id,
+      user_id: this.userData.id,
       login_type: String(this.userData.login_type),
+      category:id
     }
     console.log(data)
     this.dataService.getProjectList(data)
       .then((resp: any) => {
         console.log("project list", resp)
         const response = JSON.parse(resp.data);
+        console.log(response)
         this.projectList = JSON.parse(JSON.stringify(response.data));
+        console.log(this.projectList)
         this.filteredProjects = this.projectList;
       }).catch((err) => {
         console.log(err)
@@ -174,7 +243,7 @@ export class AddCustomerPage implements OnInit {
       this.budgetList =  this.budgetOptions;
       this.unitTypeList =  this.unitTypeOptions;
       this.prpertyStatusList =  this.propertyStatusOptions;
-      console.log(this.propertyLocationOptions, this.budgetOptions, this.unitTypeOptions, this.propertyStatusOptions)
+     // console.log(this.propertyLocationOptions, this.budgetOptions, this.unitTypeOptions, this.propertyStatusOptions)
    
       // setTimeout(() => {
       //   $("select").formSelect();
@@ -196,13 +265,13 @@ export class AddCustomerPage implements OnInit {
       let statusIndex = this.customerStatus?.findIndex((stat: any) => stat.status_title == this.addCustomerForm.value.c_status);
       let projectIndex = this.projectList?.findIndex((stat: any) => stat.project_title == this.addCustomerForm.value.c_project_id);
       let apiData = this.addCustomerForm.value;
-      apiData["c_status"] =  this.customerStatus[statusIndex].status_id;
-      apiData["c_project_id"] = this.projectList[projectIndex].project_id;
+      apiData["c_status"] =  this.customerStatus[statusIndex]?.status_id;
+      apiData["c_project_id"] = this.projectList[projectIndex]?.project_id;
       let userData = this.dataService.getUserData()
       apiData["user_id"] = userData['id'];
       apiData["login_type"] = userData['login_type'];
       apiData["customer_name"] = this.addCustomerForm.value.c_name;
-      apiData["c_phone"] ="+91" + this.addCustomerForm.value.c_phone;
+      apiData["c_phone"] = this.addCustomerForm.value.c_country_code + this.addCustomerForm.value.c_phone;
       console.log(apiData)
       this.dataService.addCustomer(apiData)
         .then((resp: any) => {
@@ -222,6 +291,8 @@ export class AddCustomerPage implements OnInit {
           this.loading = false;
         });
 
+    }else{
+      this.commonService.presentToast('warning', "Please fill all details to add new Customer");
     }
 
   }
@@ -237,6 +308,7 @@ export class AddCustomerPage implements OnInit {
       apiData["lead_id"] = this.selectedCustomer.req_id;
       apiData["login_type"] = userData['login_type'];
       apiData["customer_name"] = this.addCustomerForm.value.c_name;
+      apiData["c_phone"] = this.addCustomerForm.value.c_country_code + this.addCustomerForm.value.c_phone;
       console.log(apiData)
       this.dataService.updateLead(apiData)
         .then((resp: any) => {
@@ -255,6 +327,8 @@ export class AddCustomerPage implements OnInit {
           this.loading = false;
         });
 
+    }else{
+      this.commonService.presentToast('warning',"Please check details!");
     }
 
   }

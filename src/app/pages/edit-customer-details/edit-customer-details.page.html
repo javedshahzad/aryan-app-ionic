@@ -14,8 +14,10 @@
             <h5 class="h-5">Project Name: {{assignedProject || "New Project"}}</h5>
             <h5 class="h-5">Property Status: {{selectedCustomer?.rep_property_status || "Under construction"}}</h5>
             <h5 class="h-5">Unit Type : {{selectedCustomer?.rep_unit_type || "Apartment"}}</h5>
+            
+            <h5 class="h-5">Unit Sub-Type : {{selectedCustomer?.rep_unit_sub_type || "Builder Floor"}}</h5>
             <h5 class="h-5">Location: {{selectedCustomer?.rep_product_location || "Delhi"}}</h5>
-            <h5 class="h-5">Type: {{project_type || "2BHK"}}</h5>
+            <h5 class="h-5">Project Type: {{project_type || "2BHK"}}</h5>
             <div class="activity-card d-flex">
               <a *ngIf="selectedCustomer.req_phone.slice(0,3) !== '+91'" class="follow-up" href="tel:+91{{selectedCustomer?.req_phone}}">
                 <label>

@@ -102,7 +102,7 @@
         </div>
       </ion-list>
       <ion-list *ngIf="projectList?.length && !projectListLoading" class="bg-list">
-        <div class="card" *ngFor="let project of projectList" >
+        <div class="card" *ngFor="let project of projectList" (click)="goToProjectDetails(project.project_id)">
           <div class="card-image">
             <img [src]="project?.project_main_image">
             <div class="images-label">
@@ -110,7 +110,7 @@
               <a class="waves-effect waves-light btn-small grey-bg lighten-2" *ngIf="project?.is_featured == '1'">Exclusive</a>
             </div>
           </div>
-          <div class="card-content" (click)="goToProjectDetails(project.project_id)">
+          <div class="card-content" >
             <div class="project-title">
               <h3>{{ project.project_title}}</h3>
               <p>{{ project.project_location_text }}</p>

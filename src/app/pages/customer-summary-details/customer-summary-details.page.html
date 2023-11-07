@@ -34,6 +34,11 @@
             </ion-segment>
           </ion-col>
         </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-searchbar mode="ios" show-clear-button="focus" [(ngModel)]="searchLead" (ionInput)="onSearchLead($event)" placeholder="Enter name to search"></ion-searchbar>
+          </ion-col>
+        </ion-row>
       </ion-grid>
       <!-- <div class="row">
         <div class="checkout-btn right">

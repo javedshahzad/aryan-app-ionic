@@ -22,6 +22,8 @@ export class CustomerSummaryDetailsPage implements OnInit {
   SelectedStatus: any;
   customerStatus: any=[];
   filterDate:any="1";
+  searchLead:any=""
+  LeadSearchArray: any=[];
   constructor(
     private dataService: DataService,
     private activateRouter: ActivatedRoute,
@@ -56,10 +58,21 @@ export class CustomerSummaryDetailsPage implements OnInit {
         const response = JSON.parse(resp.data);
         console.log("get-lead-list", response)
         this.leadsListing = response.data;
+        this.LeadSearchArray = response.data;
       }).catch((err:any) => {
         console.log((err))
         this.leadsDataLoading = false;
       });
+  }
+  onSearchLead(event) {
+    var str = event.detail.value;
+    if (str) {
+      let arrdata = this.LeadSearchArray;
+      let x = arrdata.filter((a) => a.req_name.toUpperCase().includes(str.toUpperCase()));
+      this.leadsListing = x;
+  } else {
+      this.leadsListing = this.LeadSearchArray;
+  }
   }
    getCustomerStatusdata(): void {
     this.dataService.getCustomerStatus({})

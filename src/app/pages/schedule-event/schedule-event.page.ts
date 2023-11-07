@@ -69,11 +69,12 @@ export class ScheduleEventPage implements OnInit {
     let data = {
       user_id: userData.id
     }   
+    this.dataService.simpleLoader();
     this.dataService.getCustomerList(data).then((resp: any) => {
       
       const response = JSON.parse(resp.data);
       console.log("customer list", response)
-
+      this.dataService.loaderDismiss();
       this.customerOptions = response.data;
       let autoCompleteData: any = {};
       this.customerOptions.forEach((customer: any) => {
@@ -94,6 +95,7 @@ export class ScheduleEventPage implements OnInit {
       this.optionsDatLaoding = false;
     }).catch((err: any) => {
       console.log(err)
+      this.dataService.loaderDismiss();
       this.optionsDatLaoding = false;
     });
   }
