@@ -124,6 +124,13 @@ export class AddCustomerPage implements OnInit {
         this.addCustomerForm.controls['c_phone'].disable();
         this.addCustomerForm.controls['c_country_code'].disable();
       }
+      if(this.selectedCustomer.rep_unit_type === "Residential Project"){
+        this.getCategoriesTypes("1");
+      this.getProjectList("Residential Project");
+      }else{
+        this.getCategoriesTypes("2");
+        this.getProjectList("Commercial Project");
+      }
     }
   }
   eventTypeChanged(event_type: string): void {
