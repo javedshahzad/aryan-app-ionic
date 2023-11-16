@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  baseUrl: 'https://crm.aryanrealty.com/development/'
+  baseUrl: 'https://www.crm.aryanrealty.com/'
+    //baseUrl: 'https://crm.aryanrealty.com/development/'
 };
 
 /*

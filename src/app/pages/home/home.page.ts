@@ -41,17 +41,25 @@ export class HomePage implements OnInit {
     this.dataService.validateJWTToken({user_id: this.userData['user_id']}).then((tokenResponse) => {
       const response = JSON.parse(tokenResponse.data);
       if(!response['keep_login']) {
-       
         var loginRequest = JSON.parse(localStorage.getItem('loginRequest')) ? JSON.parse(localStorage.getItem('loginRequest')) : "";
        if(loginRequest){
         loginRequest['fcm_token'] = this.fcmSr.PUST_TOKEN_FOR_LOGIN ? this.fcmSr.PUST_TOKEN_FOR_LOGIN :  localStorage.getItem(this.PUSH_TOKEN);;
         this.dataService.userLogin(loginRequest).then((resp: any) => {
           const response = JSON.parse(resp.data);
+         if(response.data.user_id){
           localStorage.setItem('aryanUser', JSON.stringify(response.data));
           this.attendance_loading = true;
           this.getDashboardData();
           this.getBannerImage();
-      })
+         }else{
+          localStorage.clear();
+          this.router.navigate(['/login']);
+         }
+       
+      }).catch((err) => {
+        localStorage.clear();
+        this.router.navigate(['/login']);
+        });
        }else{
         localStorage.clear();
         this.router.navigate(['/login']);
