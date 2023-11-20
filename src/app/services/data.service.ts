@@ -134,6 +134,18 @@ export class DataService {
         Appkey: 'test_key'
     });
   }
+  getNewLeadData(data: any) {
+    return this.nativeHttp.post(this.url + 'get-lead-data', data, {
+        Bearer: this.getUserToken(),
+        Appkey: 'test_key'
+    });
+  }
+  searchCustomer(data: any) {
+    return this.nativeHttp.get(this.url + 'get-search-customer-list', data, {
+        Bearer: this.getUserToken(),
+        Appkey: 'test_key'
+    });
+  }
 
   getCustomerList(data: any) {
     return this.nativeHttp.get(this.url + 'get-customer-list', data, {

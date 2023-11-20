@@ -24,6 +24,8 @@ export class CustomerSummaryDetailsPage implements OnInit {
   filterDate:any="1";
   searchLead:any=""
   LeadSearchArray: any=[];
+  ShowHideNewLead:boolean=false;
+  LimitData:any=20;
   constructor(
     private dataService: DataService,
     private activateRouter: ActivatedRoute,
@@ -36,7 +38,14 @@ export class CustomerSummaryDetailsPage implements OnInit {
       console.log("params", params)
       this.SelectedStatus = params.status;
       this.getCustomerStatusdata();
-      this.getLeadListByStatus(this.SelectedStatus);
+      if(this.SelectedStatus === "newLead" || this.SelectedStatus === "totalLead"){
+        this.getNewLeadData(this.SelectedStatus)
+        this.ShowHideNewLead = true;
+      }else{
+        this.getLeadListByStatus(this.SelectedStatus);
+        this.ShowHideNewLead = false;
+      }
+   
     })
   }
   ngOnInit() {
@@ -49,6 +58,7 @@ export class CustomerSummaryDetailsPage implements OnInit {
       user_id: this.userData.id,
       status: status,
       from:this.filterDate,
+      limit:String(this.LimitData)
     }
     console.log(data)
     this.dataService.getLeadsList(data)
@@ -64,12 +74,40 @@ export class CustomerSummaryDetailsPage implements OnInit {
         this.leadsDataLoading = false;
       });
   }
+  getNewLeadData(status: string): void {
+    this.leadsDataLoading = true;
+    let data = {
+      user_id: this.userData.id,
+      lead_type:status,
+      from:this.filterDate,
+      limit:String(this.LimitData)
+    }
+    console.log(data)
+    this.dataService.getNewLeadData(data)
+      .then((resp: any) => {
+        console.log(resp)
+        this.leadsDataLoading = false;
+        const response = JSON.parse(resp.data);
+        console.log("get-lead-list New", response)
+        this.leadsListing = response.data;
+        console.log( this.leadsListing)
+        this.LeadSearchArray = response.data;
+      }).catch((err:any) => {
+        console.log((err))
+        this.leadsDataLoading = false;
+      });
+  }
   onSearchLead(event) {
     var str = event.detail.value;
     if (str) {
       let arrdata = this.LeadSearchArray;
-      let x = arrdata.filter((a) => a.req_name.toUpperCase().includes(str.toUpperCase()));
-      this.leadsListing = x;
+      if(this.SelectedStatus === "newLead" || this.SelectedStatus === "totalLead"){
+        let x = arrdata.filter((a) => a.user_first_name.toUpperCase().includes(str.toUpperCase()) || a.user_last_name.toUpperCase().includes(str.toUpperCase()));
+        this.leadsListing = x;
+      }else{
+        let x = arrdata.filter((a) => a.req_name.toUpperCase().includes(str.toUpperCase()));
+        this.leadsListing = x;
+      }
   } else {
       this.leadsListing = this.LeadSearchArray;
   }
@@ -90,18 +128,85 @@ export class CustomerSummaryDetailsPage implements OnInit {
     console.log(customer)
     this._nav.navigateForward("/schedule-event",{queryParams:{customer:customer}});
   }
-  changeSegment(event:any){
+  OnStatusChange(event:any){
     this.leadsListing= []
     console.log(event.detail.value);
     this.SelectedStatus = event.detail.value;
-    this.getLeadListByStatus(this.SelectedStatus);
+    this.LimitData = 20;
+    if(this.SelectedStatus === "newLead" || this.SelectedStatus === "totalLead"){
+      this.ShowHideNewLead = true;
+      this.getNewLeadData(this.SelectedStatus)
+    }else{
+      this.ShowHideNewLead = false;
+      this.getLeadListByStatus(this.SelectedStatus);
+    }
   }
   ChangeFilter(event:any){
     console.log(event.detail.value);
     this.filterDate = event.detail.value;
-    this.getLeadListByStatus(this.SelectedStatus);
+    this.LimitData = 20;
+    if(this.SelectedStatus === "newLead" || this.SelectedStatus === "totalLead"){
+      this.getNewLeadData(this.SelectedStatus);
+      this.ShowHideNewLead = true;
+    }else{
+      this.getLeadListByStatus(this.SelectedStatus);
+      this.ShowHideNewLead = false;
+    }
   }
   gotoLeadDetailsEdit(customer){
     this._nav.navigateForward("/edit-customer-details",{queryParams:{customer:customer}})
+  }
+  gotoEditDetails(customer:any){
+    console.log(customer)
+    this._nav.navigateForward("/update-lead",{queryParams:{customer:customer}})
+  }
+  loadData(event) {
+      console.log('Done');
+      this.LimitData +=20;
+      console.log(this.LimitData)
+      if(this.SelectedStatus === "newLead" || this.SelectedStatus === "totalLead"){
+        let data = {
+          user_id: this.userData.id,
+          lead_type:this.SelectedStatus,
+          from:this.filterDate,
+          limit:String(this.LimitData)
+        }
+        console.log(data)
+        this.dataService.getNewLeadData(data)
+          .then((resp: any) => {
+            console.log(resp)
+            event.target.complete();
+            const response = JSON.parse(resp.data);
+            console.log("get-lead-list New", response)
+            this.leadsListing = response.data;
+            console.log( this.leadsListing)
+            this.LeadSearchArray = response.data;
+          }).catch((err:any) => {
+            console.log((err))
+            event.target.complete();
+          });
+        this.ShowHideNewLead = true;
+      }else{
+        let data = {
+          user_id: this.userData.id,
+          status: this.SelectedStatus,
+          from:this.filterDate,
+          limit:String(this.LimitData)
+        }
+        console.log(data)
+        this.dataService.getLeadsList(data)
+          .then((resp: any) => {
+            console.log(resp)
+            const response = JSON.parse(resp.data);
+            console.log("get-lead-list", response)
+            this.leadsListing = response.data;
+            this.LeadSearchArray = response.data;
+            event.target.complete();
+          }).catch((err:any) => {
+            console.log((err))
+            event.target.complete();
+          });
+        this.ShowHideNewLead = false;
+      }
   }
 }

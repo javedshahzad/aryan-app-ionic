@@ -82,6 +82,10 @@ export const routes: Routes = [
   },  {
     path: 'emi-calculator',
     loadComponent: () => import('./pages/emi-calculator/emi-calculator.page').then( m => m.EmiCalculatorPage)
+  },
+  {
+    path: 'update-lead',
+    loadComponent: () => import('./pages/update-lead/update-lead.page').then( m => m.UpdateLeadPage)
   }
 
 

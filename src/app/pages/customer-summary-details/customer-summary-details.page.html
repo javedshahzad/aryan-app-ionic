@@ -24,9 +24,15 @@
         </ion-row>
         <ion-row>
           <ion-col>
-            <ion-segment mode="ios" [scrollable]="true" [value]="SelectedStatus" [(ngModel)]="SelectedStatus" (ionChange)="changeSegment($event)">
+            <ion-segment mode="ios" [scrollable]="true" [value]="SelectedStatus" [(ngModel)]="SelectedStatus" (ionChange)="OnStatusChange($event)">
               <ion-segment-button value="0">
                 <h5 class="heading">All</h5>
+              </ion-segment-button>
+              <ion-segment-button value="totalLead">
+                <h5 class="heading">Total Lead</h5>
+              </ion-segment-button>
+              <ion-segment-button value="newLead">
+                <h5 class="heading">New Lead</h5>
               </ion-segment-button>
               <ion-segment-button [value]="item.status_id" *ngFor="let item of customerStatus">
                 <h5 class="heading">{{item.status_title}}</h5>
@@ -47,9 +53,10 @@
       </div> -->
       <div class="row notification-list">
         <div class="card-panel z-depth-1 profile-col-box pd-15" *ngFor="let leadDetails of leadsListing">
-          <div class="row bot-0">
+          <div class="row bot-0" *ngIf="!ShowHideNewLead">
               <h3>{{ leadDetails.req_name }} {{ leadDetails.req_last_name }}</h3>
-              <span class="">{{leadDetails?.rep_min_budget || "30 Lac"}} to {{leadDetails?.rep_max_budget || "40 Lac"}} - {{leadDetails?.rep_product_location || "Haryana"}}</span>
+              <span class="" *ngIf="leadDetails?.rep_max_budget && leadDetails?.rep_min_budget">{{leadDetails?.rep_min_budget }} to {{leadDetails?.rep_max_budget }}</span>
+              <span *ngIf="leadDetails?.rep_product_location">{{leadDetails?.rep_product_location}}</span> 
               <p *ngFor="let event of leadDetails.event_list">
                 {{ event.event_type | titlecase }}
                 <span><i class="mdi mdi-circle" style="color: var(--primary-color);font-size: 8px;margin-right: 3px;vertical-align: middle;"></i>{{event.event_date}}</span>
@@ -76,6 +83,37 @@
               </div>
               
           </div>
+          <div class="row bot-0" *ngIf="ShowHideNewLead">
+            <h3>{{ leadDetails.user_first_name }} {{ leadDetails.user_last_name }}</h3>
+            <span class="">{{leadDetails?.user_email }}</span>
+            <span class="">{{leadDetails?.user_phone }}</span>
+            <span class="" *ngIf="leadDetails.min_budget">{{leadDetails?.min_budget }} to {{leadDetails?.max_budget }} - {{leadDetails?.user_address}}</span>
+            <p *ngFor="let event of leadDetails.event_list">
+              {{ event.event_type | titlecase }}
+              <span><i class="mdi mdi-circle" style="color: var(--primary-color);font-size: 8px;margin-right: 3px;vertical-align: middle;"></i>{{event.event_date}}</span>
+            </p>
+            <div class="ion-text-center">
+              <ion-button (click)="gotoEditDetails(leadDetails)" shape="round">View Lead</ion-button>
+            </div>
+            <div class="activity-card d-flex">
+              <div class="follow-up" (click)="gotoScheduleEvent(leadDetails)">
+                <label><i class="icon-calender"></i></label>
+              </div>
+              <a *ngIf="leadDetails.user_phone?.slice(0,3) !== '+91'" class="follow-up" href="tel:+91{{leadDetails.user_phone}}">
+                <label><i class="icon-phone"></i></label>
+              </a>
+              <a *ngIf="leadDetails.user_phone?.slice(0,3) === '+91'" class="follow-up" href="tel:{{leadDetails.user_phone}}">
+                <label><i class="icon-phone"></i></label>
+              </a>
+              <a *ngIf="leadDetails.user_phone?.slice(0,3) !== '+91'" class="follow-up" href="https://wa.me/+91{{leadDetails.user_phone}}?text=Hello">
+                <label><i class="mdi mdi-whatsapp"></i></label>
+              </a>
+              <a *ngIf="leadDetails.user_phone?.slice(0,3) === '+91'" class="follow-up" href="https://wa.me/{{leadDetails.user_phone}}?text=Hello">
+                <label><i class="mdi mdi-whatsapp"></i></label>
+              </a>
+            </div>
+            
+        </div>
         </div>
 
         <!-- <div class="card-panel z-depth-1 profile-col-box pd-15">
@@ -100,4 +138,10 @@
       </div>
     </div>
   </section>
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

@@ -33,16 +33,25 @@
                     <div class="icon  primary-text"><i class="icon-total-customer"></i></div>
                     <div class="summary-text">
                       <div class="title ">{{ customerDashboardData?.customer_summary?.total || 0 }}</div>
-                      <div class="tagline">Total</div>
+                      <div class="tagline">Total Call</div>
                     </div>
                   </div>
                 </div>
-                <div class="col" (click)="goToSummaryDetails('New')">
+                <div class="col" (click)="goToSummaryDetails('totalLead')">
+                  <div class="icon-block block-small z-depth-1 d-flex">
+                    <div class="icon  primary-text"><i class="icon-total-customer"></i></div>
+                    <div class="summary-text">
+                      <div class="title ">{{ customerDashboardData?.customer_summary?.total_lead || 0 }}</div>
+                      <div class="tagline">Total Lead</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col" (click)="goToSummaryDetails('newLead')">
                   <div class="icon-block block-small z-depth-1 d-flex">
                     <div class="icon  primary-text"><i class="icon-new-customer"></i></div>
                     <div class="summary-text">
-                      <div class="title ">{{ customerDashboardData?.customer_summary?.new || 0 }}</div>
-                      <div class="tagline">New</div>
+                      <div class="title ">{{ customerDashboardData?.customer_summary?.new_lead || 0 }}</div>
+                      <div class="tagline">New Lead</div>
                     </div>
                   </div>
                 </div>

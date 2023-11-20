@@ -24,6 +24,9 @@ export class ScheduleEventPage implements OnInit {
   optionsDatLaoding: boolean = false;
   customerOptions: any[] = [];
   selectedCustomer: any="";
+  searchValue: any="";
+  showCustomers: boolean=false;
+  customerData: any="";
 
   constructor(
     private commonService: CommonService,
@@ -48,9 +51,7 @@ export class ScheduleEventPage implements OnInit {
       event_notes: ['', [Validators.required]]
     });
     if(this.selectedCustomer){
-      this.scheduleEventForm.controls['customer_name'].setValue(this.selectedCustomer.req_name);
-    }else{
-      this.getCustomerFieldOptionsData();
+      this.scheduleEventForm.controls['customer_name'].setValue(this.selectedCustomer.req_name ? this.selectedCustomer.req_name : this.selectedCustomer.user_first_name + "" + this.selectedCustomer.user_last_name);
     }
     
   }
@@ -61,7 +62,7 @@ export class ScheduleEventPage implements OnInit {
     this.scheduleEventForm.controls['event_type'].updateValueAndValidity();
   }
 
-  private getCustomerFieldOptionsData(): void {
+  public getCustomerFieldOptionsData(): void {
 
     let userData = this.dataService.getUserData();
 
@@ -99,7 +100,47 @@ export class ScheduleEventPage implements OnInit {
       this.optionsDatLaoding = false;
     });
   }
+  public SearchCustomer(event:any) {
 
+    let userData = this.dataService.getUserData();
+    this.searchValue = event;
+    if(this.searchValue){
+      let data = {
+        user_id: userData.id,
+        search:this.searchValue
+      }   
+      this.dataService.searchCustomer(data).then((resp: any) => {
+        
+        const response = JSON.parse(resp.data);
+        console.log("customer list", response)
+        this.customerOptions = response.data;
+        console.log(this.customerOptions)
+        if(this.customerOptions.length > 0){
+          this.showCustomers = true;
+        }else{
+          this.showCustomers = false;
+        }
+        if(!this.searchValue){
+          this.showCustomers = false;
+        }
+      }).catch((err: any) => {
+        console.log(err)
+        this.dataService.loaderDismiss();
+      });
+    }else{
+      this.showCustomers = false;
+    }
+    console.log( this.searchValue)
+    
+  }
+  onSelectCustomer(data){
+    this.customerData = data;
+      this.scheduleEventForm.controls['customer_name'].setValue(data.req_name);
+      setTimeout(() => {
+        this.showCustomers = false;
+      }, 3000);
+      console.log(this.customerData)
+  }
   saveScheduleEvent(): void {
 
     console.log(this.scheduleEventForm.value)
@@ -108,14 +149,14 @@ export class ScheduleEventPage implements OnInit {
       this.loading = true;
 
       let apiData = this.scheduleEventForm.value;
-      let selected_customer_index = this.customerOptions.findIndex((customer: any) => customer.user_first_name == this.scheduleEventForm.value['customer_name'])
+      let selected_customer_index = this.customerOptions.findIndex((customer: any) => customer.req_name == this.scheduleEventForm.value['customer_name'])
       apiData['user_id'] = this.dataService.getUserData().user_id;
       apiData['login_type'] = this.dataService.getUserData().login_type;
       if(selected_customer_index !== -1) {
-        apiData['lead_id'] = this.customerOptions[selected_customer_index]['user_id']
+        apiData['lead_id'] = this.customerOptions[selected_customer_index]['req_id']
       }
       if(this.selectedCustomer){
-        apiData['lead_id'] = this.selectedCustomer['req_id']
+        apiData['lead_id'] = this.selectedCustomer['req_id'] ? this.selectedCustomer['req_id'] : this.selectedCustomer['id']
       }
       console.log(apiData)
       this.dataService.saveScheduleEvent(apiData)
@@ -137,6 +178,8 @@ export class ScheduleEventPage implements OnInit {
           this.loading = false;
         });
 
+    }else{
+      this.commonService.presentToast('warning', "Pleas fill all details!");
     }
   }
 

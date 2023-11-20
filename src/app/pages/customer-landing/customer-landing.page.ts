@@ -104,6 +104,9 @@ export class CustomerLandingPage implements OnInit {
     if(status === "Total"){
       this.router.navigate(["customer-summary-details", 0])
     }
+    if(status === "newLead" || status === "totalLead"){
+      this.router.navigate(["customer-summary-details", status])
+    }
   }
 
 }

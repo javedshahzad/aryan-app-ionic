@@ -7,11 +7,10 @@
             <div class="input-field">
               <h5>Select Customer</h5>
               <div class="input-search-field">
-                <input type="text" id="customer_name" formControlName="customer_name" class="autocomplete" placeholder="First Name">
-                <!-- <select id="customer_name" formControlName="customer_name" style="font-weight: normal;">
-                  <option value="">Select Customer</option>
-                  <option *ngFor="let customer of customerOptions" [value]="customer.user_first_name">{{ customer.user_first_name }}</option>
-                </select> -->
+                <input type="text" mode="md" id="customer_name" formControlName="customer_name" (ngModelChange)="SearchCustomer($event)" class="ion-no-border" placeholder="First Name">
+                <div class="main-users" *ngIf="showCustomers">
+                  <p *ngFor="let customer of customerOptions" (click)="onSelectCustomer(customer)">{{customer.req_name}}</p>
+                </div>
               </div>
             </div>
             <div class="input-field">
