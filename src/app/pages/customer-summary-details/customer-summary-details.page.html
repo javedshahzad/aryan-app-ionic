@@ -85,9 +85,18 @@
           </div>
           <div class="row bot-0" *ngIf="ShowHideNewLead">
             <h3>{{ leadDetails.user_first_name }} {{ leadDetails.user_last_name }}</h3>
-            <span class="">{{leadDetails?.user_email }}</span>
-            <span class="">{{leadDetails?.user_phone }}</span>
-            <span class="" *ngIf="leadDetails.min_budget">{{leadDetails?.min_budget }} to {{leadDetails?.max_budget }} - {{leadDetails?.user_address}}</span>
+                <span class="" *ngIf="leadDetails.min_budget">{{leadDetails?.min_budget }} to {{leadDetails?.max_budget }}</span>
+            <span class="" *ngIf="leadDetails?.user_email">Email:{{leadDetails?.user_email }}</span>
+            <span class="" *ngIf="leadDetails?.user_phone">Phone:{{leadDetails?.user_phone }}</span>
+            <span class="" *ngIf="leadDetails?.user_address">Address:{{leadDetails?.user_address }}</span>
+            <span class="" *ngIf="leadDetails?.user_state">State:{{leadDetails?.user_state }}</span>
+            <span class="" *ngIf="leadDetails?.user_city">City:{{leadDetails?.user_city }}</span>
+            <span class="" *ngIf="leadDetails?.user_pincode">Pin Code:{{leadDetails?.user_pincode }}</span>
+            <span class="" *ngIf="leadDetails?.data_source">Data Source:{{leadDetails?.data_source }}</span>
+            <span class="" *ngIf="leadDetails?.unit_type">Unit Type:{{leadDetails?.unit_type }}</span>
+            <span class="" *ngIf="leadDetails?.unit_sub_type">Unit Sub-Type:{{leadDetails?.unit_sub_type }}</span>
+            <span class="" *ngIf="leadDetails?.property_status">Property Status:{{leadDetails?.property_status }}</span>
+            <span class="" *ngIf="leadDetails?.user_created">Created at:{{leadDetails?.user_created }}</span>
             <p *ngFor="let event of leadDetails.event_list">
               {{ event.event_type | titlecase }}
               <span><i class="mdi mdi-circle" style="color: var(--primary-color);font-size: 8px;margin-right: 3px;vertical-align: middle;"></i>{{event.event_date}}</span>
