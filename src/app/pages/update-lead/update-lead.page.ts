@@ -44,6 +44,7 @@ export class UpdateLeadPage implements OnInit {
   CategoriesTypesList: any=[];
   CategoriesListOptions: any = [];
   CategoriesTypesListOptions: any=[];
+  phoneDisable:boolean=true;
   constructor(
     private commonService: CommonService,
     public dataService: DataService,
@@ -79,12 +80,12 @@ export class UpdateLeadPage implements OnInit {
         c_property_status: ['', ],
         c_project_id: ['', []],
         c_status: ['', []],
-        c_country_code:['+91',],
         event_type:[""],
         event_date:[""],
         event_time:[""],
         c_unit_sub_type:[""],
-        c_notes:["",[]]
+        c_notes:["",[]],
+        remark :["",[]]
       });
   }
   ionViewWillEnter(){
@@ -97,21 +98,7 @@ export class UpdateLeadPage implements OnInit {
       this.addCustomerForm.controls['c_unit_type'].setValue(this.selectedCustomer?.unit_type);
       this.addCustomerForm.controls['c_property_status'].setValue(this.selectedCustomer?.property_status);
       this.addCustomerForm.controls['c_unit_sub_type'].setValue(this.selectedCustomer?.unit_sub_type);
-      
-      if(this.selectedCustomer.user_phone){
-        if(this.selectedCustomer.user_phone.slice(0,3) === "+91"){
-          this.addCustomerForm.controls['c_phone'].setValue(this.selectedCustomer?.user_phone.slice(3));
-          this.addCustomerForm.controls['c_country_code'].setValue(this.selectedCustomer?.user_phone.slice(0,3));
-          this.addCustomerForm.controls['c_phone'].disable();
-          this.addCustomerForm.controls['c_country_code'].disable();
-        }else{
-          this.addCustomerForm.controls['c_phone'].setValue(this.selectedCustomer?.user_phone);
-          this.addCustomerForm.controls['c_phone'].disable();
-        }
-        this.addCustomerForm.controls['c_phone'].updateValueAndValidity();
-        this.addCustomerForm.controls['c_country_code'].updateValueAndValidity();
-
-      }
+      this.addCustomerForm.controls['c_phone'].setValue(this.selectedCustomer?.user_phone);
       if(this.selectedCustomer.unit_type === "Residential Project"){
         this.getCategoriesTypes("1");
       this.getProjectList("Residential Project");
@@ -252,12 +239,15 @@ export class UpdateLeadPage implements OnInit {
       this.loading = true;
 
       let apiData = this.addCustomerForm.value;
+      let statusIndex = this.customerStatus?.findIndex((stat: any) => stat.status_title == this.addCustomerForm.value.c_status)
+      if (statusIndex !== -1) {
+        apiData['c_status']=this.customerStatus[statusIndex].status_id;
+      }
       let userData = this.dataService.getUserData()
       apiData["user_id"] = userData['id'];
       apiData["lead_id"] = this.selectedCustomer.id;
       apiData["login_type"] = userData['login_type'];
       apiData["customer_name"] = this.addCustomerForm.value.c_name;
-      apiData["c_phone"] = this.addCustomerForm.value.c_country_code + this.addCustomerForm.value.c_phone;
       console.log(apiData)
       this.dataService.updateLead(apiData)
         .then((resp: any) => {

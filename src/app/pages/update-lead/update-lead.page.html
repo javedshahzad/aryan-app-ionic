@@ -16,13 +16,8 @@
             <div class="input-field">
               <input id="email" formControlName="c_email" type="email" class="validate" placeholder="Email Address">
             </div>
-            <div class="input-field d-flex">
-              <div class="input-code">
-                <input id="pin" type="tel" class="pin-code" placeholder="+91" formControlName="c_country_code">
-              </div>
-              <div class="input-mobile-no">
-                <input id="phone" formControlName="c_phone" type="tel" class="validate" placeholder="Phone Number*">
-              </div>
+            <div class="input-field">
+                <input id="phone" formControlName="c_phone" type="tel" class="validate" placeholder="Phone Number*" [disabled]="phoneDisable">
             </div>
             <div class="input-field">
               <h5>Project location preferences (Optional)</h5>
@@ -190,6 +185,10 @@
                     {{status?.['status_title']}}
                   </mat-option>
                 </mat-select>
+              </div>
+              <div class="input-field">
+                <h5>Remark</h5>
+                <input id="name" formControlName="remark" type="text" class="validate" placeholder="Enter remarks">
               </div>
               <!-- <h5>Schedule Event</h5>
               <div class="input-field">
