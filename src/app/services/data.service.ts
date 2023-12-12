@@ -231,7 +231,12 @@ export class DataService {
   getPropertyLocationOptionList() {
     return this.nativeHttp.get(this.url + 'get-property-location', {}, {});
   }
-
+  GetLeadbyID(id) {
+    return this.nativeHttp.get(this.url + `get-lead-by-id?lead_id=${id}`, {}, {});
+  }
+  GetCallByID(id) {
+    return this.nativeHttp.get(this.url + `get-call-data-by-id?req_id=${id}`, {}, {});
+  }
   getBudgetOptionList() {
     return this.nativeHttp.get(this.url + 'get-budget-option', {}, {});
   }

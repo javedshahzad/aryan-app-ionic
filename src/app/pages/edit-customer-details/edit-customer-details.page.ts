@@ -44,8 +44,6 @@ export class EditCustomerDetailsPage implements OnInit {
     ) {
       this.activeRoute.queryParams.subscribe((response:any)=>{
         this.response = response.customer;
-       
-   
       })
      }
 
@@ -88,7 +86,7 @@ export class EditCustomerDetailsPage implements OnInit {
         this.projectList = JSON.parse(JSON.stringify(response.data));
         console.log(this.projectList)
         let projIndex = this.projectList?.findIndex((stat: any) => stat.project_id === this.selectedCustomer.rep_product_id);
-        this.assignedProject = this.projectList[projIndex].project_title;
+        this.assignedProject = this.projectList[projIndex]?.project_title;
         this.project_type = this.projectList[projIndex].project_type;
         this.filteredProjects = this.projectList;
       }).catch((err) => {
