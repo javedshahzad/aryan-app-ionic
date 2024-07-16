@@ -144,7 +144,6 @@ export class AddCustomerPage implements OnInit {
       const response = JSON.parse(resp.data);
       this.CategoriesList = response.data;
       this.CategoriesListOptions = response.data;
-      console.log("getCategories list",  this.CategoriesList)
     }).catch((err) => {
       console.log(err)
     });
